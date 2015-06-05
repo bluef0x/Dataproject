@@ -12,7 +12,7 @@ Zoals in de geschetste UI te zien is, zal de eerste grafiek bestaan uit de data 
 
 [tijd, twittersentiment(getal), Closeprijs,Opening prijs, volume]
 
-Ook zal de grafiek daaronder de prijsfluctuatie binnen de tijdsperiode aangeven aan de hand van candlesticks in een lijn plot. Zo krijgt de gebruiker inzicht in hetgeen wat er gebeurd binnen de gekozen tijdssprongen in de grafiek erboven.
+Ook zal de grafiek daaronder de prijsfluctuatie binnen de tijdsperiode aangeven aan de hand van candlesticks in een lijn plot. Zo krijgt de gebruiker inzicht in hetgeen wat er gebeurd binnen de gekozen tijdssprongen in de grafiek erboven. Hiervoor wordt de open en close prijs en tijd uit de array gebruikt.
 
 Daarnaast zullen er ook financiële indicatoren worden berekend  en  is er de mogelijkheid om het verhandelde volume te zien in twee verschillende boxen.
 
