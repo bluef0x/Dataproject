@@ -7,6 +7,8 @@ Hiervoor dient de twitterdata wordt per file te worden doorzocht op basis van de
 Het twittersentiment wordt vastgesteld door het alle gevonden twitterberichten (die gerelateerd zijn aan het aandeel) op een bepaald tijdsmoment.
 De data wordt vervolgens samengevoegd in een array waarbij het de elementen gesorteerd zijn middels de volgende index: tijd, twittersentiment, prijs.
 
+![UIdashboard](/DOCS/UIdashboard.jpg?raw=true "Dashboard")
+
 Optioneel
 
 
