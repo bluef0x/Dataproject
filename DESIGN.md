@@ -6,7 +6,7 @@ Het belangrijkste onderdeel van het product dient middels een grafiek inzicht te
 Hiervoor dient de twitterdata wordt per file te worden doorzocht op basis van de juiste woorden die het twittersentiment moeten gaan vormen.  
 Het twittersentiment wordt vastgesteld door het alle gevonden twitterberichten (die gerelateerd zijn aan het aandeel) op een bepaald tijdsmoment. Om het sentiment te kunnen herkennen in de twitterberichten zal gebruikt worden gemaakt van de libary sentiment. De functie sentiment doorzoekt woorden naar het sentiment en returned een (polarity, subjectivity)-tuple.
 
-![UIdashboard](https://github.com/bluef0x/Dataproject/edit/master/DOCS/to/img.pngUIdashboard.jpg?raw=true "Dashboard")
+![UIdashboard](https://github.com/bluef0x/Dataproject/edit/master/docs/UIdashboard.jpg?raw=true "Dashboard")
 
 Zoals in de geschetste UI te zien is, zal de eerste grafiek bestaan uit de data van het  twitersentiment afgezet tegen de koersontwikkeling. Deze data zal verkregen worden via de bovengenoemde methode. Echter zal er een array zijn per tijdsmoment die de volgende index zal hebben:
 
