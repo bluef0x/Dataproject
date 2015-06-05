@@ -9,7 +9,33 @@ De data wordt vervolgens samengevoegd in een array waarbij het de elementen geso
 
 ![UIdashboard](/DOCS/UIdashboard.jpg?raw=true "Dashboard")
 
+Zoals in de geschetste UI te zien is, zal de eerste grafiek bestaan uit de data van het  twitersentiment afgezet tegen de koersontwikkeling. Deze data zal verkregen worden via de bovengenoemde methode. Echter zal er een array zijn per tijdsmoment die de volgende index zal hebben:
+
+[tijd, twittersentiment(getal), Closeprijs,Opening prijs, volume]
+
+Ook zal de grafiek daaronder de prijsfluctuatie binnen de tijdsperiode aangeven aan de hand van candlesticks in een lijn plot. Zo krijgt de gebruiker inzicht in hetgeen wat er gebeurd binnen de gekozen tijdssprongen in de grafiek erboven.
+
+Daarnaast zullen er ook financiële indicatoren worden berekend  en  is er de mogelijkheid om het verhandelde volume te zien in twee verschillende boxen.
+
 Optioneel
+
+Dashboard: 
+-	Niewsfeed van het geselecteerd prijsmoment
+De nieuwsfeed kan gescrapt worden van de bloomberg website. Hierdoor krijgt de gebruiker extra inzicht in wat de media al gepubliceerd heeft. Men kan dan  een overweging maken , welk gedeelte van het twttersentiment al in de koersprijs verwerkt is.
+
+Data:
+-	Grafiek met Correlatie tussen twitter sentiment en koersprijs
+-	Informatiebox met statistisch informatie over de data
+
+
+Classes:
+
+Function loadin (input: raw data)
+(output: loaded data voor makeCleanData)
+
+Function  makeCleanData (input: loaded data)
+	(output: Clean data voor visulisatie)
+
 
 
 
@@ -20,8 +46,10 @@ Sketches:
 
 API'S en raamwerken:
 
-D3
-Bootstrap
+D3,
+Bootstrap,
+Pattern
+sentiment
 
 Databronnen:
 Finam (http://www.finam.ru/analysis/profile041CA00007/default.asp)
