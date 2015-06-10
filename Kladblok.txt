@@ -3,8 +3,10 @@
 	# Meerdere historische files inladen
 	# Live datastream invoegen twitter api
 	# Live stock data invoegen
-	# Gebruik relative path
+	# Gebruik een relative path voor root_path
 	# Genereer paths kan korter
+	# timeseries panda voor plotten van developmentcurves
+	# afvangen loadFiles functie wanneer er minder dan 5 files (modulo probleem) over zijn
 
 
 - Data filtering
@@ -16,6 +18,7 @@
 
 
 - Visualisatie
+ # Object maken in javascript voor twitterdata
 
 
 

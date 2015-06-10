@@ -32,7 +32,7 @@ def calcSentiment(input):
 
 		average_sentiment = total / len(sentiment_array)
 		print average_sentiment
-		writer.writerow(["sentiment:", average_sentiment])
+		writer.writerow([tweet_data[0]["created_at"],"sentiment:", average_sentiment])
 
 
 

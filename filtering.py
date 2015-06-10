@@ -2,13 +2,18 @@ import json
 
 aapl_keywords_set=set(["apple","iphone","iphone4","iphone4s","ipad","mac","ios","siri","itunes","ipod","icloud","appstore","macbook"])
 
-def filter(input):
+def filter_multiple(twitterFiles):
+	for singleTwitterJsonFile in twitterFiles:
+		filter(singleTwitterJsonFile)
+	
+
+def filter(singleTwitterJsonFile):
 	tweets_data = []
 	output = []
 
-	#backup_file = "output_filter.json"
+	backup_file = "output_filter.json"
 
-	for line in input:
+	for line in singleTwitterJsonFile:
 		tweets_data.append(line)
 			
 	with open(backup_file,"w+") as file_output:
@@ -30,4 +35,6 @@ def filter(input):
 						# write to test file
 						json.dump(tweet,file_output)
 						file_output.write("\n")
+	for i,j in enumerate(output):
+		print output[i]["text"]
 	return output

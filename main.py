@@ -4,9 +4,18 @@ import sentiment
 
 
 if __name__ == "__main__":
-	twitterData = loadin.loadTwitterData()
+	
+	# load stock data
 	stockData = loadin.loadStockData()
 
-	cleanTwitterData = filtering.filter(twitterData)
+	# load twitter data
+	#twitterData = loadin.loadTwitterData()
+	for twitterData in loadin.main():
+		# load filtered twitterdata
+		cleanTwitterData = filtering.filter_multiple(twitterData)
 
-	sentimentData = sentiment.calcSentiment(cleanTwitterData)
+		# Make outputfile with sentiment
+		sentimentData = sentiment.calcSentiment(cleanTwitterData)
+
+	
+	
