@@ -1,0 +1,29 @@
+
+- Data inladen
+	# Meerdere historische files inladen
+	# Live datastream invoegen twitter api
+	# Live stock data invoegen
+	# Gebruik relative path
+	# Genereer paths kan korter
+
+
+- Data filtering
+	# Check op taal (zitten andere talen dan engels in gefilteerde tweets)
+	# Check pandas
+	# 
+
+- Sentiment berekening
+
+
+- Visualisatie
+
+
+
+
+
+
+
+
+''' Keuzes '''
+
+Hoe om te gaan met de twitterdata buiten de openingstijden van de stockexchange om?
