@@ -3,9 +3,11 @@ import json
 aapl_keywords_set=set(["apple","iphone","iphone4","iphone4s","ipad","mac","ios","siri","itunes","ipod","icloud","appstore","macbook"])
 
 def filter_multiple(twitterFiles):
+	cleandata = []
 	for singleTwitterJsonFile in twitterFiles:
-		filter(singleTwitterJsonFile)
-	
+		cleandata.append(filter(singleTwitterJsonFile))
+	print len(cleandata)
+	return cleandata	
 
 def filter(singleTwitterJsonFile):
 	tweets_data = []

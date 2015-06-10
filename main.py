@@ -15,7 +15,7 @@ if __name__ == "__main__":
 		cleanTwitterData = filtering.filter_multiple(twitterData)
 
 		# Make outputfile with sentiment
-		sentimentData = sentiment.calcSentiment(cleanTwitterData)
+		sentimentData = sentiment.calcSentiment_multiple(cleanTwitterData)
 
 	
 	

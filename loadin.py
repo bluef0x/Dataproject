@@ -99,18 +99,5 @@ def main():
 
 if __name__ == '__main__':
 	pass
-	# import sys
-	# import time
 
-	# root_path = "/Users/jeroen_meijaard48/Downloads"
-
-	# t0 = time.time()
-	# # l = loadAllJSON(sys.argv[1])
-	# # generator = generate_paths(root_path)
-	# paths = generate_paths(root_path)	
-	# #paths = ["/somepath/something"]
-	# test1 = loadFiles(paths,5)
-	# next(test1)
-	# # print 'There were %d lines' % len(l)
-	# print 'Took %.2f seconds' % (time.time() - t0)
 
