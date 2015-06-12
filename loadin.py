@@ -18,7 +18,7 @@ def loadStockData():
 	''' Load in stock data'''
 	stockData = []
 
-	with open('AAPL_120101_120131.txt') as data_file:
+	with open('US2.AAPL_120101_120131(1).txt') as data_file:
 		stockData = data_file.readlines()
 
 	return stockData

@@ -25,7 +25,7 @@ def calcSentiment_multiple(CleanTwitterDataSets):
 			average_sentiment = total / lengthDataSet
 
 		# write to csv
-		writer.writerow([OneTweetTime[0],OneTweetTime[(lengthDataSet - 1)],"sentiment:", average_sentiment])
+		writer.writerow([OneTweetTime[0],OneTweetTime[(lengthDataSet - 1)], average_sentiment])
 
 
 def calcSentiment(input):
