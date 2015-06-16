@@ -35,6 +35,10 @@ Hoe om te gaan met de twitterdata buiten de openingstijden van de stockexchange 
 
 ''' Vragen '''
 
+''' Oud '''
 Scripts in de div plaaten? ---> Tijdens data processing werd gezegd zet onderaan de body in html. Oplgelost
 Hoe de slider te weergeven ---> divjes vastzetten: Gwn 1 div container tekeken met 6 climuns en dan clear bij dataknop en teken de 6 data clolums.
-Queue of nested loading
+Queue of nested loading -- > queue
+
+''' Nieuw '''
+Alle samen te updaten svg in 1 svg stoppen??

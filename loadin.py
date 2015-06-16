@@ -31,10 +31,14 @@ def loadStockData():
 		
 		for i,line in enumerate(stockData):
 			if i == 0:
-				line.insert(0,"<close_time>")
-				line.remove(line[2])
-				line.remove(line[3])
-				line.remove(line[4])
+				print "hello"
+				header = ["close_time","TICKER","OPEN","HIGH","LOW","CLOSE","VOL"]
+				print header[0]
+
+				for i,part in enumerate(line):
+					line.remove(line[i])
+					# line.insert(0,header[i + 1])
+
 			else:
 				dateObject = parser.parse(str(stockData[i][2] + stockData[i][3]))
 				temp1 = dateObject.strftime("%a %b %d %H:%M:%S %Y")
@@ -42,7 +46,8 @@ def loadStockData():
 				temp2.insert(4,"+0000")
 				temp3 = " ".join(temp2)
 				line.insert(0,str(temp3))
-
+			# print line
+	# print stockData
 	return stockData
 #Sun Jan 01 07:00:59 +0000 2012
 
