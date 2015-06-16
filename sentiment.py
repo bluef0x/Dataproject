@@ -2,30 +2,52 @@ import json
 import csv
 from textblob import TextBlob
 
+# def calcSentiment_multiple(CleanTwitterDataSets):
+# 	average_sentiment = 0
+# 	total = 0
+# 	lengthDataSet = len(CleanTwitterDataSets)
+# 	OneTweetTime = []
+# 	output_file = "output_sentiment.csv"
+
+# 	# open csv
+# 	with open (output_file,"a") as twitterOutput:
+# 		writer = csv.writer(twitterOutput)
+# 		for singleCleanSet in CleanTwitterDataSets:
+# 			output = calcSentiment(singleCleanSet)
+			
+# 			if output is None:
+# 				lengthDataSet -= 1
+# 			else:
+# 				total += output[1]
+# 				OneTweetTime.append(output[0])
+
+# 		if lengthDataSet != 0:
+# 			average_sentiment = total / lengthDataSet
+
+# 		# write to csv
+# 		writer.writerow([OneTweetTime[0],OneTweetTime[(lengthDataSet - 1)], average_sentiment])
+
 def calcSentiment_multiple(CleanTwitterDataSets):
 	average_sentiment = 0
 	total = 0
 	lengthDataSet = len(CleanTwitterDataSets)
 	OneTweetTime = []
-	output_file = "output_sentiment.csv"
 
-	# open csv
-	with open (output_file,"a") as twitterOutput:
-		writer = csv.writer(twitterOutput)
-		for singleCleanSet in CleanTwitterDataSets:
-			output = calcSentiment(singleCleanSet)
-			
-			if output is None:
-				lengthDataSet -= 1
-			else:
-				total += output[1]
-				OneTweetTime.append(output[0])
 
-		if lengthDataSet != 0:
-			average_sentiment = total / lengthDataSet
+	for singleCleanSet in CleanTwitterDataSets:
+		output = calcSentiment(singleCleanSet)
+		
+		if output is None:
+			lengthDataSet -= 1
+		else:
+			total += output[1]
+			OneTweetTime.append(output[0])
 
-		# write to csv
-		writer.writerow([OneTweetTime[0],OneTweetTime[(lengthDataSet - 1)], average_sentiment])
+	if lengthDataSet != 0:
+		average_sentiment = total / lengthDataSet
+
+	# write to csv
+	return [str(OneTweetTime[0]),str(OneTweetTime[(lengthDataSet - 1)]), average_sentiment]
 
 
 def calcSentiment(input):

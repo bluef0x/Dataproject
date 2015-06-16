@@ -6,9 +6,9 @@ var parseDate = d3.time.format("%a %b %d %H:%M:%S %Z %Y").parse;
 
 function graph(data){
 
-		// Set the dimensions of the canvas / graph
+	// Set the dimensions of the canvas / graph
 	var	margin = {top: 30, right: 20, bottom: 30, left: 50},
-		width = 1000 - margin.left - margin.right,
+		width = 450 - margin.left - margin.right,
 		height = 300 - margin.top - margin.bottom;
 	 
 	 
@@ -22,21 +22,27 @@ function graph(data){
 	 
 	var	yAxis = d3.svg.axis().scale(y)
 		.orient("left").ticks(5);
-	 
+
 	// Define the line
 	var	valueline = d3.svg.line()
 		.x(function(d) { return x(d.end_time); })
 		.y(function(d) { return y(d.sentiment); });
 	    
 	// Adds the svg canvas
-	var	svg = d3.select("body")
+	var	svg = d3.select("#mainChart")
+		.append("div")
+			.classed("svg-container", true) //container class to make it responsive
 		.append("svg")
-			.attr("width", width + margin.left + margin.right)
-			.attr("height", height + margin.top + margin.bottom)
+			//responsive SVG needs these 2 attributes and no width and height attr
+			.attr("preserveAspectRatio", "xMinYMin meet")
+			.attr("viewBox", "0 0 600 400")
+			//class to make it responsive
+			.classed("svg-content-responsive", true)
 		.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-	    		// Scale the range of the data
+
+	// Scale the range of the data
 	x.domain(d3.extent(data, function(d) { return d.end_time; }));
 	y.domain([d3.min(data, function(d) { return d.sentiment; }), d3.max(data, function(d) { return d.sentiment; })]);
  
@@ -55,6 +61,7 @@ function graph(data){
 	svg.append("g")		
 		.attr("class", "y axis")
 		.call(yAxis);
+	
 }
 
 
@@ -77,7 +84,7 @@ function main(){
 
 
 
-		graph(rows)
+		graph(rows);
   
 		});
     });

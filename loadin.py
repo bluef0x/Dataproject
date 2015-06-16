@@ -1,6 +1,10 @@
 import json
 import os
 import errno
+import calendar
+import sys
+import time
+from dateutil import parser
 
 def loadTwitterData(filepath='00.json'):
 	''' Load in twitterdata'''
@@ -17,15 +21,33 @@ def loadTwitterData(filepath='00.json'):
 def loadStockData():
 	''' Load in stock data'''
 	stockData = []
+	dataObjects = []
 
 	with open('US2.AAPL_120101_120131(1).txt') as data_file:
-		stockData = data_file.readlines()
+		inputFileList = [line.rstrip('\n').split('\r') for line in data_file]
+
+		for line in inputFileList[0]:
+			stockData.append(line.split(','))
+		
+		for i,line in enumerate(stockData):
+			if i == 0:
+				line.insert(0,"<close_time>")
+				line.remove(line[2])
+				line.remove(line[3])
+				line.remove(line[4])
+			else:
+				dateObject = parser.parse(str(stockData[i][2] + stockData[i][3]))
+				temp1 = dateObject.strftime("%a %b %d %H:%M:%S %Y")
+				temp2 = temp1.split(" ")
+				temp2.insert(4,"+0000")
+				temp3 = " ".join(temp2)
+				line.insert(0,str(temp3))
 
 	return stockData
+#Sun Jan 01 07:00:59 +0000 2012
 
 def generate_paths(root_path =' '):
 	''' generate paths for all files in folder '''
-	import calendar
 
 	paths = []
 	cal = calendar.Calendar()
@@ -83,8 +105,6 @@ def loadFiles(paths, n = 5):
 # 				alldata.extend(loadTwitterData(os.path.join(root, filename)))
 
 def main():
-	import sys
-	import time
 
 	root_path = "/Users/jeroen_meijaard48/Downloads"
 

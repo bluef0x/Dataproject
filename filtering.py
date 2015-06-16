@@ -37,6 +37,6 @@ def filter(singleTwitterJsonFile):
 						# write to test file
 						json.dump(tweet,file_output)
 						file_output.write("\n")
-	for i,j in enumerate(output):
-		print output[i]["text"]
+	# for i,j in enumerate(output):
+	# 	print output[i]["text"]
 	return output

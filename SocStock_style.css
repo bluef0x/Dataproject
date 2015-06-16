@@ -3,7 +3,7 @@
 	left: 48% 
 }
 
- 
+/* CSS for main graph */
 path { 
   stroke: steelblue;
   stroke-width: 2;
@@ -17,3 +17,21 @@ path {
 	stroke-width: 1;
 	shape-rendering: crispEdges;
 }
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 66%;  aspect ratio 
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.svg-content-responsive {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
+
+/* CSS for pie chart */
