@@ -26,8 +26,6 @@ var parseDate = d3.time.format("%a %b %d %H:%M:%S %Z %Y").parse;
 
 function main(){
 
-	
-
     d3.csv("output_sentiment.csv",function(error, rows) { 
     	d3.csv("output_AAPL.csv", function(error, data) {
     		rows.forEach(function(d) {
@@ -36,31 +34,195 @@ function main(){
 		    d.close_time = parseDate(d.close_time);
 		    //console.log(d.end_time, d.sentiment) 
 		  	});
-    		data.forEach(function(e) {
-		    e.end_time = parseDate(e.end_time);
-		    e.sentiment = parseFloat(+e.sentiment);
-		    e.close_time = parseDate(e.close_time);
-		    //console.log(d.end_time, d.sentiment) 
+    		data.forEach(function(d) {
+		    d.end_time = parseDate(d.end_time);
+		    d.sentiment = parseFloat(+d.sentiment);
+		    d.close_time = parseDate(d.close_time);
+		    d.close = parseFloat(+d.CLOSE)
+		   	
+		    //console.log(d.close, d.sentiment) 
 		  	});
-  //   	var Twitterdata = data;
+
+    	// make timeseries
+    	var last_date = data[0].close_time.getDate();
+    	var day_number = 1;
+    	var tuesday = [];
+    	var wednesday = [];
+    	var thursday = [];
+    	var friday = [];
+    	var i = 0;
+
+    	data.forEach(function(d){
+    		if (d.close_time.getDate() == last_date){
+    			i += 1;
+    			console.log("day: ", day_number)
+
+    			if(day_number == 1){
+    				tuesday.push(d)
+    			}
+    			else if(day_number == 2){
+    				wednesday.push(d)
+    			}
+    			else if(day_number == 3){
+    				thursday.push(d)
+    			}
+    			else if(day_number == 4){
+    				friday.push(d)
+    			}
+    			else{
+    				console.log("Timeseries per day is not correct")
+    			}
+    		}
+    		else {
+    			i +=1;
+    			day_number += 1
+    			last_date += 1
+    			console.log(last_date)
+
+    			if(day_number == 2){
+    				wednesday.push(d)
+    			}
+    			else if(day_number == 3){
+    				thursday.push(d)
+    			}
+    			else if(day_number == 4){
+    				friday.push(d)
+    			}
+    			else{
+    				console.log("Timeseries per day is not correct")
+    			}
+    		}
+    	});
+    	var dayArray = [tuesday, wednesday,thursday,friday];
 
 	  	// Set the dimensions of the canvas / graph
 		var element = document.getElementById("mainChart");
-		var	margin = {top: 50, right: 50, bottom: 50, left: 50},
-		width = element.offsetWidth + margin.left + margin.right,
-		height = element.offsetHeight + margin.top + margin.bottom;
+		var	margin = {top: 50, right: 10, bottom: 50, left: 45},
+		width = (element.offsetWidth * 1) + margin.left + margin.right,
+		height = (element.offsetHeight * 1) + margin.top + margin.bottom;
 
-		console.log(height)
+		console.log(width,height)
 
 		// drawGraph(Twitterdata);
-  		console.log(data[0]);
+  		//console.log(data[0]);
   //   		console.log(data);
 
-		graph(data,width,height,margin);
-		graph(rows,width,height,margin);
+		graph(tuesday,width,height,margin);
+		//graph(rows,width,height,margin);
+		//pieChart(tuesday);
 
-		drawHistogram(data);
+		scatter(data,width,height,margin);
+		drawHistogram(data,width,height,margin);
+
   
 		});
     });
+}
+
+function scatter(data,width,height,margin){
+	 // var margin = {top: 20, right: 15, bottom: 60, left: 60}
+  //     , width = 960 - margin.left - margin.right
+  //     , height = 500 - margin.top - margin.bottom;
+    
+    var x = d3.scale.linear()
+              .domain([ -1, 1])
+              .range([ 0, width ]);
+    
+    var y = d3.scale.linear()
+    	      .domain([400, 450])
+    	      .range([ height, 0 ]);
+ 
+    var chart = d3.select('#scatter')
+	.append('svg:svg')
+	.attr('width', width + margin.right + margin.left)
+	.attr('height', height + margin.top + margin.bottom)
+	.attr('class', 'chart')
+
+    var main = chart.append('g')
+	.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+	.attr('width', width)
+	.attr('height', height)
+	.attr('class', 'main')   
+        
+    // draw the x axis
+    var xAxis = d3.svg.axis()
+	.scale(x)
+	.orient('bottom');
+
+    main.append('g')
+	.attr('transform', 'translate(0,' + height + ')')
+	.attr('class', 'main axis date')
+	.call(xAxis);
+
+    // draw the y axis
+    var yAxis = d3.svg.axis()
+	.scale(y)
+	.orient('left');
+
+    main.append('g')
+	.attr('transform', 'translate(0,0)')
+	.attr('class', 'main axis date')
+	.call(yAxis);
+
+    var g = main.append("svg:g"); 
+    
+    g.selectAll("scatter-dots")
+      .data(data)
+      .enter().append("svg:circle")
+          .attr("cx", function (d,i) { return x(d.sentiment); } )
+          .attr("cy", function (d) { return y(d.close); } )
+          .attr("r", 2);
+}
+function pieChart(data){
+
+	var width = 960,
+	height = 500,
+	radius = Math.min(width, height) / 2;
+
+	var color = d3.scale.ordinal()
+	    .range(["#98abc5", "#8a89a6"]);
+
+	var arc = d3.svg.arc()
+	    .outerRadius(radius - 10)
+	    .innerRadius(0);
+
+	var pie = d3.layout.pie()
+	    .sort(null)
+	    .value(function(d) { return d.sentiment; });
+
+	var svg = d3.select("#pieChart").append("svg")
+	    .attr("width", width)
+	    .attr("height", height)
+	  .append("g")
+	    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+	var pos_count = 0;
+	var neg_count = 0;
+
+	  data.forEach(function(d) {
+	    if (d.sentiment >= 0){
+	    	pos_count += 1
+	    }
+	    else{
+	    	neg_count += 1
+	    }
+	  });
+
+	  var pieData = [[positive, pos_count][negative, neg_count]];
+	  console.log(pieData);
+
+	  var g = svg.selectAll(".arc")
+	      .data(pie(data))
+	    .enter().append("g")
+	      .attr("class", "arc");
+
+	  g.append("path")
+	      .attr("d", arc)
+	      .style("fill", function(d) { return color(pieData[0]; });
+
+	  g.append("text")
+	      .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+	      .attr("dy", ".35em")
+	      .style("text-anchor", "middle")
+	      .text(function(d) { return pieData[0]; });
 }

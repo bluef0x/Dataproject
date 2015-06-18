@@ -1,3 +1,5 @@
+''' Jeroen Meijaard 10611002 '''
+
 import json
 import os
 import errno
