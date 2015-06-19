@@ -55,7 +55,7 @@ function main(){
     	data.forEach(function(d){
     		if (d.close_time.getDate() == last_date){
     			i += 1;
-    			console.log("day: ", day_number)
+    			//console.log("day: ", day_number)
 
     			if(day_number == 1){
     				tuesday.push(d)
@@ -77,7 +77,7 @@ function main(){
     			i +=1;
     			day_number += 1
     			last_date += 1
-    			console.log(last_date)
+    			//console.log(last_date)
 
     			if(day_number == 2){
     				wednesday.push(d)
@@ -101,15 +101,14 @@ function main(){
 		width = (element.offsetWidth * 1) + margin.left + margin.right,
 		height = (element.offsetHeight * 1) + margin.top + margin.bottom;
 
-		console.log(width,height)
+		//console.log(width,height)
 
-		// drawGraph(Twitterdata);
-  		//console.log(data[0]);
-  //   		console.log(data);
+		graph(dayArray,width,height,margin);
 
-		graph(tuesday,width,height,margin);
-		//graph(rows,width,height,margin);
-		//pieChart(tuesday);
+
+
+	
+		pieChart(tuesday,width,height,margin);
 
 		scatter(data,width,height,margin);
 		drawHistogram(data,width,height,margin);
@@ -173,56 +172,90 @@ function scatter(data,width,height,margin){
           .attr("cy", function (d) { return y(d.close); } )
           .attr("r", 2);
 }
-function pieChart(data){
+function pieChart(dayArray,width,height,margin){
 
-	var width = 960,
-	height = 500,
-	radius = Math.min(width, height) / 2;
+	var data = dayArray
+
+	// var width = 960,
+	// height = 500,
+	var radius = Math.min(width, height) / 2;
+
+	// remove old graph
+	d3.select("#pieChart").selectAll("svg").remove();
+
+	// Get score for pie chart
+    var pos_count = 0;
+	var neg_count = 0;
+
+	data.forEach(function(d) {
+	if (d.sentiment >= 0){
+		pos_count += 1
+	}
+	else {
+		neg_count += 1
+	}
+	});
+
+
+	// make array of objects with postive and negative populations
+	var pieData = [{"type": "positive", "population": pos_count},{"type": "negative" ,"population": neg_count}];
+	// var pieDataNew = JSON.parse(pieData)
+	// var pieData = [["positive", pos_count]["negative", neg_count]]
+	//console.log(pieDataNew);
+	//console.log(pieData[1].population);
+	// console.log(pieData[0].type);
+	// console.log(pieData.length);
+
+	// pieData.forEach(function(d){
+	// 	d.population = +d.population;
+	// 	d.type = d.type
+	// 	console.log(d.population);
+	// })
 
 	var color = d3.scale.ordinal()
-	    .range(["#98abc5", "#8a89a6"]);
+	    .range(["#05a508", "#cc071b"]);
 
 	var arc = d3.svg.arc()
 	    .outerRadius(radius - 10)
 	    .innerRadius(0);
 
+	var enterAntiClockwise = {
+	  startAngle: Math.PI * 2,
+	  endAngle: Math.PI * 2
+	};
+
 	var pie = d3.layout.pie()
 	    .sort(null)
-	    .value(function(d) { return d.sentiment; });
+	    .value(function(d) { return d.population; });
 
 	var svg = d3.select("#pieChart").append("svg")
+
 	    .attr("width", width)
 	    .attr("height", height)
 	  .append("g")
 	    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-	var pos_count = 0;
-	var neg_count = 0;
+	var g = svg.selectAll(".arc")
+	  .data(pie(pieData))
+	.enter().append("g")
+	  .attr("class", "arc");
 
-	  data.forEach(function(d) {
-	    if (d.sentiment >= 0){
-	    	pos_count += 1
-	    }
-	    else{
-	    	neg_count += 1
-	    }
-	  });
+	g.append("path")
+	  .attr("d", arc)
+	  .style("fill", function(d,i) { return color(i);})
+	  .each(function(d) { this._current = d; }); // store the initial angles
 
-	  var pieData = [[positive, pos_count][negative, neg_count]];
-	  console.log(pieData);
+	g.append("text")
+	  .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+	  .attr("dy", ".35em")
+	  .style("text-anchor", "middle")
+	  .text(function(d,i) { return pieData[i].type; });
 
-	  var g = svg.selectAll(".arc")
-	      .data(pie(data))
-	    .enter().append("g")
-	      .attr("class", "arc");
+}
+function updatePieChart(dayArray, cur_position,width,height,margin){
 
-	  g.append("path")
-	      .attr("d", arc)
-	      .style("fill", function(d) { return color(pieData[0]; });
+	var data = dayArray[cur_position];
 
-	  g.append("text")
-	      .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-	      .attr("dy", ".35em")
-	      .style("text-anchor", "middle")
-	      .text(function(d) { return pieData[0]; });
+	pieChart(data,width,height,margin);
+
 }

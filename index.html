@@ -27,30 +27,27 @@
 		    <h1> SocStock</h1>
 		    <p>SocStock is the dashboard for analyzing the effect of twittersentiment on the social media stockprices</p> 
 		  </div>
-		  <div class="row">
-		  	<div class="button" id="option">
-			    <input name="updateButton" 
-			                 type="button" 
-			                value="Update" 
-			                onclick="updateData()" />
+		  <div class="row" id="dashboard">
+		  	<div class="button" id="buttons">
 			</div>
-
 		    <div class="col-lg-4" id="mainChart">
 		      <h3>Mainchart</h3>
 		    </div>
 		    <div class="col-lg-4">
 		      <h3>Info</h3>
+		      <p id="cur_date"> </p>
 		    </div>
-		    <div class="col-lg-4" 	id="pieChart">
+		    <div class="col-lg-4" id="pieChart">
 		      <h3>Pie chart</h3>
+		      <div id="pieChart"></div>
 		    </div>
 		  </div>
-		  <div class="row">
-		    <div class="col-lg-4">
-		      <h3>....</h3>
-		    </div>
+		  <div class="row" id="data">
 		    <div class="col-lg-4" id="histogram">
 		      <h3>Histogram</h3>
+		    </div>
+		    <div class="col-lg-4">
+		      <h3>Info</h3>
 		    </div>
 		    <div class="col-lg-4" id="scatter">
 		      <h3>Scatterplot</h3>

@@ -20,3 +20,11 @@ body {
   stroke: #000;
   shape-rendering: crispEdges;
 }
+#dashboard{
+  border-style: solid;
+  border-color: #ff0000 #0000ff;
+}
+#data{
+  border-style: solid;
+    border-color: #ff0000 #0000ff;
+}

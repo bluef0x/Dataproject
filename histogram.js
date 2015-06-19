@@ -1,14 +1,14 @@
 
-function drawHistogram(data,width,height,margin){
+function drawHistogram(data,setwidth,height,margin){
 
     var values = d3.range(1000).map(d3.random.bates(10));
 
     // A formatter for counts.
     var formatCount = d3.format(",.0f");
 
-    // var margin = {top: 10, right: 30, bottom: 30, left: 30},
-    //     width = 960 - margin.left - margin.right,
-    //     height = 500 - margin.top - margin.bottom;
+
+    var width = setwidth - 50 - margin.left - margin.right
+    //height = setheight - margin.top - margin.bottom;
 
     var x = d3.scale.linear()
         .domain([0, 1])
