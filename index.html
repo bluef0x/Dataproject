@@ -29,6 +29,10 @@
 		  </div>
 		  <div class="row" id="dashboard">
 		  	<div class="button" id="buttons">
+		  		<button id="5min" > 5 min</button>
+		  		<button id="5min" > 1 hour</button>
+		  		<button id="5min" > day </button>
+
 			</div>
 		    <div class="col-lg-4" id="mainChart">
 		      <h3>Mainchart</h3>
@@ -43,11 +47,15 @@
 		    </div>
 		  </div>
 		  <div class="row" id="data">
+		  		
 		    <div class="col-lg-4" id="histogram">
 		      <h3>Histogram</h3>
+		  		<button id="sort" onclick="sortBars()">Sort</button>
+    			<button id="reset" onclick="reset()">Reset</button>
 		    </div>
 		    <div class="col-lg-4">
 		      <h3>Info</h3>
+		      <p id="dataInfo"></p>
 		    </div>
 		    <div class="col-lg-4" id="scatter">
 		      <h3>Scatterplot</h3>

@@ -1,9 +1,14 @@
 "use strict";
 
 function graph(dayArray,width,height,margin){
-	 
+	 // shows the day in array selected
+	 var cur_position = 0;
+
 	// get data for first day
 	var data = dayArray[0];
+
+	// update information
+	updateInfo(cur_position, dayArray);
 
 	// Set the ranges
 	var	x = d3.time.scale().range([0, width]);
@@ -52,11 +57,12 @@ function graph(dayArray,width,height,margin){
 	// Add the valueline path.
 	svg.append("path")	
 		.attr("class", "twitterline")
-		.style("stroke","red")
+		.style("stroke","blue")
 		.attr("d", twitterline(data));
 	// Add the valueline path.
 	svg.append("path")	
 		.attr("class", "stockline")
+		.style("stroke","red")
 		.attr("d", stockline(data));
  
 	// Add the X Axis
@@ -68,13 +74,14 @@ function graph(dayArray,width,height,margin){
 	// Add the left Y Axis
 	svg.append("g")		
 		.attr("class", "y axis left")
+		.style("fill", "red")
 		.call(yAxisLeft);
 
 	// Add the right Y Axis
 	svg.append("g")		
 		.attr("class", "y axis right")
 		.attr("transform", "translate(" + width + " ,0)")
-		.style("fill", "red")
+		.style("fill", "blue")
 		.call(yAxisRight);
 
 		var button_holder = d3.select('#buttons')
@@ -169,19 +176,14 @@ function graph(dayArray,width,height,margin){
 	    //return cur_position;
     }
     function updateInfo(cur_position, dayArray){
-    	console.log("hi")
     	var parseDate = d3.time.format("%a %d/%b/%Y").parse;
-    	// show date
-		var day = dayArray[cur_position][0].close_time.getDate();
-		var month = dayArray[cur_position][0].close_time.getMonth();
-		var year = dayArray[cur_position][0].close_time.getYear();
-		var key = "Current day: "
-		console.log(day);
+
+		var key = "Selected day: "
 
 
-		var result = dayArray[cur_position][0].close_time.toDateString()
+		var result = key + dayArray[cur_position][0].close_time.toDateString();
 		console.log(result);
-		document.getElementById("cur_date") = result;
+		document.getElementById("cur_date").innerHTML = result;
 
     }
 

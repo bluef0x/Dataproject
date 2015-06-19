@@ -104,18 +104,13 @@ function main(){
 		//console.log(width,height)
 
 		graph(dayArray,width,height,margin);
-
-
-
-	
 		pieChart(tuesday,width,height,margin);
 
 		scatter(data,width,height,margin);
 		drawHistogram(data,width,height,margin);
-
-  
-		});
-    });
+		updateInfoData(data);
+    	});
+	});
 }
 
 function scatter(data,width,height,margin){
@@ -259,3 +254,17 @@ function updatePieChart(dayArray, cur_position,width,height,margin){
 	pieChart(data,width,height,margin);
 
 }
+
+function updateInfoData(data){
+    	var parseDate = d3.time.format("%a %d/%b/%Y").parse;
+
+		var start = "start day: ";
+		var end = "end day: ";
+		var lengthData = data.length - 1;
+
+
+		var result = start + data[0].close_time.toDateString() + "<br>" +  end + data[lengthData].close_time.toDateString();
+		console.log(result);
+		document.getElementById("dataInfo").innerHTML = result;
+
+    }
