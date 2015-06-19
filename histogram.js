@@ -114,7 +114,7 @@ var sortBars = function () {
     })
         .duration(1000)
         .text(function (d) {
-        return d.value;
+        return d.key;
     })
         .attr("text-anchor", "middle")
         .attr("x", function (d, i) {
