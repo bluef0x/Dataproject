@@ -3,29 +3,36 @@
 <html>
 
     <head>
-        <title>SocStock</title>
+        <title>SocialTrade</title>
         <link rel="stylesheet" type="text/css" href="SocStock_style.css">
         <link rel="stylesheet" type="text/css" href="bootstrap.css">
         <link rel="stylesheet" type="text/css" href="svg_style.css">
 
         <!-- Link to d3 library or change path to local copy -->
     	<script src="d3.min.js"></script>
-    	<!-- This is your script file, write your functions in main.js -->
     	<script src="main.js"></script>
-    	<!-- This is your script file, write your functions in main.js -->
     	<script src="maingraph.js"></script>
-    	<!-- This is your script file, write your functions in main.js -->
     	<script src="histogram.js"></script>
+    	<script src="moment.js"></script>
 
         <meta charset="utf-8">
     </head>
 
     <body>
+    	<nav class="navbar navbar-inverse navbar-fixed-top">
+    		<ol class="breadcrumb">
+			  <li><a href="index.html">Home</a></li>
+			  <li class="active">Dashboard</li>
+			  <li><a href="#">About</a></li>
+			</ol>
+<!-- 		  <div class="container">
+		    ...
+		  </div> -->
+		</nav>
 
     	<div class="container">
 		  <div class="jumbotron">
-		    <h1> SocStock</h1>
-		    <p>SocStock is the dashboard for analyzing the effect of twittersentiment on the social media stockprices</p> 
+		    <h1> Dashboard</h1> 
 		  </div>
 		  <div class="row" id="dashboard">
 		  	<div class="button" id="buttons">
@@ -50,8 +57,8 @@
 		  		
 		    <div class="col-lg-4" id="histogram">
 		      <h3>Histogram</h3>
-		  		<button id="sort" onclick="sortBars()">Sort</button>
-    			<button id="reset" onclick="reset()">Reset</button>
+		  		<button class="histogramButtons" id="sort" onclick="sortBars()">Sort</button>
+    			<button class="histogramButtons" id="reset" onclick="reset()">Reset</button>
 		    </div>
 		    <div class="col-lg-4">
 		      <h3>Info</h3>

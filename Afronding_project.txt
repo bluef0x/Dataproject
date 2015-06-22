@@ -1,0 +1,19 @@
+Afronding project:
+
+Procesbook
+
+proposal updaten?
+Designdocument?
+
+Beoordeling:
+process book
+features voor doelgroep
+implementatie van features (minimale eisen)
+
+
+Omzetten data:
+
+verander key in dag/maand/jaar
+bouw functie in object die vorige en volgende dag zoekt
+onthoud dag geselecteerd in plaats van nummer
+gebruik functie voor back en next knop

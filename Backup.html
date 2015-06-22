@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <title>SocStock</title>
+        <link rel="stylesheet" type="text/css" href="SocStock_style.css">
+        <link rel="stylesheet" type="text/css" href="bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="svg_style.css">
+
+        <!-- Link to d3 library or change path to local copy -->
+    	<script src="d3.min.js"></script>
+    	<!-- This is your script file, write your functions in main.js -->
+    	<script src="main.js"></script>
+    	<!-- This is your script file, write your functions in main.js -->
+    	<script src="maingraph.js"></script>
+    	<!-- This is your script file, write your functions in main.js -->
+    	<script src="histogram.js"></script>
+
+        <meta charset="utf-8">
+    </head>
+
+    <body>
+    	<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+    		<ol class="breadcrumb">
+			  <li><a href="#">Home</a></li>
+			  <li><a href="#">Library</a></li>
+			  <li class="active">Data</li>
+			</ol>
+<!-- 		  <div class="container">
+		    ...
+		  </div> -->
+		</nav>
+
+    	<div class="container">
+		  <div class="jumbotron">
+		    <h1> SocStock</h1>
+		    <p>SocStock is the dashboard for analyzing the effect of twittersentiment on the social media stockprices</p> 
+		  </div>
+		  <div class="row" id="dashboard">
+		  	<div class="button" id="buttons">
+		  		<button id="5min" > 5 min</button>
+		  		<button id="5min" > 1 hour</button>
+		  		<button id="5min" > day </button>
+
+			</div>
+		    <div class="col-lg-4" id="mainChart">
+		      <h3>Mainchart</h3>
+		    </div>
+		    <div class="col-lg-4">
+		      <h3>Info</h3>
+		      <p id="cur_date"> </p>
+		    </div>
+		    <div class="col-lg-4" id="pieChart">
+		      <h3>Pie chart</h3>
+		      <div id="pieChart"></div>
+		    </div>
+		  </div>
+		  <div class="row" id="data">
+		  		
+		    <div class="col-lg-4" id="histogram">
+		      <h3>Histogram</h3>
+		  		<button class="histogramButtons" id="sort" onclick="sortBars()">Sort</button>
+    			<button class="histogramButtons" id="reset" onclick="reset()">Reset</button>
+		    </div>
+		    <div class="col-lg-4">
+		      <h3>Info</h3>
+		      <p id="dataInfo"></p>
+		    </div>
+		    <div class="col-lg-4" id="scatter">
+		      <h3>Scatterplot</h3>
+		    </div>
+		  </div>
+		</div>
+
+
+		<script type="text/javascript">
+		// function OnLoadDocument () {
+		// 	alert ("The document has been loaded.");
+		// 	document.body.style.backgroundColor = "red";
+		// }		
+
+			function addLoadEvent(func) {
+			  var oldonload = window.onload;
+			  if (typeof window.onload != 'function') {
+			    window.onload = func;
+			  } else {
+			    window.onload = function() {
+			      if (oldonload) {
+			        oldonload();
+			      }
+			      func();
+			    }
+			  }
+			}
+			addLoadEvent(main());
+			addLoadEvent(function() {
+				document.body.style.backgroundColor = '#C2DCD5';
+			})
+
+
+		</script>
+
+
+    </body>
+
+</html>

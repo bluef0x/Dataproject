@@ -1,0 +1,9 @@
+Opmerkingen presentatie:
+
+Layout anders indelen. (maak informatie kolom stukken smaller
+
+Scatterplot moet delta prijs (fluctuatie) weergeven t.o.v. 
+
+Check voor zoom = d3.behavior zoom functie
+
+coorelatiecooefiecient

@@ -1,14 +1,25 @@
 "use strict";
 
 function graph(dayArray,width,height,margin){
+
+	// // Grab the keys, parse to integers and make sure they are sorted.
+	// var keys = Object.keys(dayArray).map(function(day) {
+	// 	return ~~day;
+	// }).sort(function(a, b) {
+	// 	return a < b;
+	// });
+	// console.log(keys);
+
 	 // shows the day in array selected
-	 var cur_position = 0;
+	var cur_position = 0;
 
 	// get data for first day
-	var data = dayArray[0];
+	var data = dayArray.get(0);//[keys[0]];
+
+	console.log(data)
 
 	// update information
-	updateInfo(cur_position, dayArray);
+	updateInfo(keys,cur_position, dayArray);
 
 	// Set the ranges
 	var	x = d3.time.scale().range([0, width]);
@@ -98,10 +109,10 @@ function graph(dayArray,width,height,margin){
 				}
 				else{
 					cur_position -= 1
-					updateMainChart(cur_position,dayArray,width,height,margin,xAxis,yAxisLeft,yAxisRight);
-					updatePieChart(dayArray, cur_position,width,height,margin);
+					updateMainChart(keys,cur_position,dayArray,width,height,margin,xAxis,yAxisLeft,yAxisRight);
+					updatePieChart(keys,dayArray, cur_position,width,height,margin);
 					// update information
-					updateInfo(cur_position, dayArray);
+					updateInfo(keys,cur_position, dayArray);
 				}
 			});
 		console.log(cur_position);
@@ -114,10 +125,10 @@ function graph(dayArray,width,height,margin){
 				}
 				else{
 					cur_position += 1
-					updateMainChart(cur_position,dayArray,width,height,margin,xAxis,yAxisLeft,yAxisRight);
-					updatePieChart(dayArray, cur_position,width,height,margin);
+					updateMainChart(keys,cur_position,dayArray,width,height,margin,xAxis,yAxisLeft,yAxisRight);
+					updatePieChart(keys,dayArray, cur_position,width,height,margin);
 					// update information
-					updateInfo(cur_position, dayArray);
+					updateInfo(keys,cur_position, dayArray);
 				}
 			});
 		console.log(cur_position);
@@ -126,13 +137,13 @@ function graph(dayArray,width,height,margin){
 }
 
 	// ** Update data section (Called from the onclick)
-	function updateMainChart(cur_position, dayArray,width,height,margin,xAxis,yAxisLeft,yAxisRight) {
+	function updateMainChart(keys,cur_position, dayArray,width,height,margin,xAxis,yAxisLeft,yAxisRight) {
 		//cur_position +=  1
 		console.log(cur_position);
 
-		var newData = dayArray[cur_position];
+		var newData = dayArray[keys[cur_position]];
 
-		console.log(newData[0]);
+		console.log(newData[keys[0]]);
 			
 		// Set the ranges again
 		var	x = d3.time.scale().range([0, width]);
@@ -175,13 +186,13 @@ function graph(dayArray,width,height,margin){
 	    console.log(cur_position);
 	    //return cur_position;
     }
-    function updateInfo(cur_position, dayArray){
+    function updateInfo(keys, cur_position, dayArray){
     	var parseDate = d3.time.format("%a %d/%b/%Y").parse;
 
 		var key = "Selected day: "
 
-
-		var result = key + dayArray[cur_position][0].close_time.toDateString();
+		console.log(dayArray,keys,cur_position);
+		var result = key + dayArray[keys[cur_position]][0].close_time.toDateString();
 		console.log(result);
 		document.getElementById("cur_date").innerHTML = result;
 

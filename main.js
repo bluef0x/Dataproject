@@ -27,13 +27,13 @@ var parseDate = d3.time.format("%a %b %d %H:%M:%S %Z %Y").parse;
 function main(){
 
     d3.csv("output_sentiment.csv",function(error, rows) { 
-    	d3.csv("output_AAPL.csv", function(error, data) {
-    		rows.forEach(function(d) {
-		    d.end_time = parseDate(d.end_time);
-		    d.sentiment = parseFloat(+d.sentiment);
-		    d.close_time = parseDate(d.close_time);
-		    //console.log(d.end_time, d.sentiment) 
-		  	});
+    	d3.csv("output_aapl.csv", function(error, data) {
+    	// 	rows.forEach(function(d) {
+		   //  d.end_time = parseDate(d.end_time);
+		   //  d.sentiment = parseFloat(+d.sentiment);
+		   //  d.close_time = parseDate(d.close_time);
+		   //  //console.log(d.end_time, d.sentiment) 
+		  	// });
     		data.forEach(function(d) {
 		    d.end_time = parseDate(d.end_time);
 		    d.sentiment = parseFloat(+d.sentiment);
@@ -43,57 +43,80 @@ function main(){
 		    //console.log(d.close, d.sentiment) 
 		  	});
 
+
     	// make timeseries
-    	var last_date = data[0].close_time.getDate();
-    	var day_number = 1;
-    	var tuesday = [];
-    	var wednesday = [];
-    	var thursday = [];
-    	var friday = [];
-    	var i = 0;
+    	var last_date = null;
 
-    	data.forEach(function(d){
-    		if (d.close_time.getDate() == last_date){
-    			i += 1;
-    			//console.log("day: ", day_number)
+     //    var timeseriesData = {};
+    	// data.forEach(function(d){
+    	// 	if (d.close_time.getDate() != last_date){
+    	// 		//console.log("day: ", day_number)
+     //            console.log(d);
+    			
+    	// 		last_date = d.close_time.getDate();
+     //            // make array in object timerseries for each day
+     //            timeseriesData[String(last_date)] = [];
+    	// 		//console.log(last_date)
+    	// 	}
+     //        timeseriesData[String(last_date)].push(d);
+    	// });
 
-    			if(day_number == 1){
-    				tuesday.push(d)
-    			}
-    			else if(day_number == 2){
-    				wednesday.push(d)
-    			}
-    			else if(day_number == 3){
-    				thursday.push(d)
-    			}
-    			else if(day_number == 4){
-    				friday.push(d)
-    			}
-    			else{
-    				console.log("Timeseries per day is not correct")
-    			}
-    		}
-    		else {
-    			i +=1;
-    			day_number += 1
-    			last_date += 1
-    			//console.log(last_date)
+        var timeseriesData = {};
+        data.forEach(function(d){
+            if (moment(d.close_time).format("DD-MM-YYYY") != last_date){
+                //console.log("day: ", day_number)
+                console.log(d);
+                
+                last_date = moment(d.close_time).format("DD-MM-YYYY");
+                console.log(last_date);
+                // make array in object timerseries for each day
+                timeseriesData[String(last_date)] = [];
+                //console.log(last_date)
+            }
+            timeseriesData[String(last_date)].push(d);
+        });
 
-    			if(day_number == 2){
-    				wednesday.push(d)
-    			}
-    			else if(day_number == 3){
-    				thursday.push(d)
-    			}
-    			else if(day_number == 4){
-    				friday.push(d)
-    			}
-    			else{
-    				console.log("Timeseries per day is not correct")
-    			}
-    		}
-    	});
-    	var dayArray = [tuesday, wednesday,thursday,friday];
+
+        
+        // timeseriesData.keys = Object.keys(timeseriesData).map(function(day) {
+        //         return ~~day;
+        //     }).sort(function(a, b) {
+        //         return a < b;
+        //     });
+
+        // functie schrijven die datum bepaalt 1 dag terug en 1 dag vooruit
+        timeseriesData.nextday = function(current_datum) {
+            var i = 0;
+            var current_datum = moment(current_datum, "DD-MM-YYYY");
+            while (i < 10) {
+                current_datum = current_datum.add(1, "days");
+                var current_datum_str = current_datum.format("DD-MM-YYYY");
+                console.log(current_datum_str);
+                if (timeseriesData[current_datum_str]){
+                    return timeseriesData[current_datum_str]
+                }
+                i++;
+            }
+        };
+        
+        timeseriesData.backday = function(current_datum) {
+            var i = 0;
+            var current_datum = moment(current_datum, "DD-MM-YYYY");
+            while (i < 10) {
+                current_datum = current_datum.subtract(1, "days");
+                var current_datum_str = current_datum.format("DD-MM-YYYY");
+                console.log(current_datum_str);
+                if (timeseriesData[current_datum_str]){
+                    return timeseriesData[current_datum_str]
+                }
+                i++;
+            }
+        };
+
+
+        console.log(timeseriesData.nextday("02-01-2012"));
+
+    	//var dayArray = [tuesday, wednesday,thursday,friday];
 
 	  	// Set the dimensions of the canvas / graph
 		var element = document.getElementById("mainChart");
@@ -103,12 +126,12 @@ function main(){
 
 		//console.log(width,height)
 
-		graph(dayArray,width,height,margin);
-		pieChart(tuesday,width,height,margin);
+		graph(timeseriesData,width,height,margin);
+		pieChart(timeseriesData[0],width,height,margin);
 
 		scatter(data,width,height,margin);
 		drawHistogram(data,width,height,margin);
-		updateInfoData(data);
+		updateInfoData(timeseriesData);
     	});
 	});
 }

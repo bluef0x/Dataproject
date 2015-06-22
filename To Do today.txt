@@ -1,0 +1,11 @@
+To Do today:
+
+Maingraph afmaken.
+
+codereview
+
+pie chart 
+
+financial indicators op basis van selectie data punt
+
+histogram
