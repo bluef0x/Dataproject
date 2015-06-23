@@ -11,15 +11,13 @@ function graph(dayArray,width,height,margin){
 	// console.log(keys);
 
 	 // shows the day in array selected
-	var cur_position = "02-01-2012";
+	var cur_position = "03-01-2012";
 
 	// get data for first day
-	var data = dayArray[cur_position];//[keys[0]];
-
-	console.log(data)
+	var data = dayArray[cur_position];
 
 	// update information
-	updateInfo(cur_position, dayArray);
+	updateInfo(cur_position, data);
 
 	// Set the ranges
 	var	x = d3.time.scale().range([0, width]);
@@ -43,27 +41,29 @@ function graph(dayArray,width,height,margin){
 	var	twitterline = d3.svg.line()
 		.x(function(d) { return x(d.close_time); })
 		.y(function(d) { return y1(d.sentiment); });
-
-	  
 	
 	// Adds the svg canvas
 	var	svg = d3.select("#mainChart")
-		.append("div")
-			.classed("svg-container", true) //container class to make it responsive
+		// .append("div")
+		// 	.classed("svg-container", true) //container class to make it responsive
+		// .append("svg")
+		// 	//responsive SVG needs these 2 attributes and no width and height attr
+		// 	.attr("preserveAspectRatio", "xMinYMin meet")
+		// 	.attr("viewBox", "0 0 600 400")
+		// 	//class to make it responsive
+		// 	.classed("svg-content-responsive", true)
 		.append("svg")
-			//responsive SVG needs these 2 attributes and no width and height attr
-			.attr("preserveAspectRatio", "xMinYMin meet")
-			.attr("viewBox", "0 0 600 400")
-			//class to make it responsive
-			.classed("svg-content-responsive", true)
+        	.attr("width", width + margin.left + margin.right)
+        	.attr("height", height + margin.top + margin.bottom)
 		.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
+	var stockSpace = 1;
+	var sentimentSpace = [1,0.8]
 	// Scale the range of the data
 	x.domain(d3.extent(data, function(d) { return d.close_time; }));
-	y0.domain([d3.min(data, function(d) { return Math.max(d.close); }), d3.max(data, function(d) { return Math.max(d.close); })]);
-	y1.domain([d3.min(data, function(d) { return Math.max(d.sentiment); }), d3.max(data, function(d) { return Math.max(d.sentiment); })]);
+	y0.domain([d3.min(data, function(d) { return Math.min(d.close - stockSpace); }), d3.max(data, function(d) { return Math.max(d.close + stockSpace); })]);
+	y1.domain([d3.min(data, function(d) { return Math.min(d.sentiment - sentimentSpace[0]); }), d3.max(data, function(d) { return Math.max(d.sentiment + sentimentSpace[1]); })]);
  
 	// Add the valueline path.
 	svg.append("path")	
@@ -80,81 +80,86 @@ function graph(dayArray,width,height,margin){
 	svg.append("g")		
 		.attr("class", "x axis")
 		.attr("transform", "translate(0," + height + ")")
-		.call(xAxis);
+		.call(xAxis)
+
+    svg.append("text")
+    	.attr("transform", "translate(" + (width / 2) + " ," + (height + margin.bottom - 10) + ")")
+        .style("text-anchor", "middle")
+        .text("Time per 5 minutes");
  
 	// Add the left Y Axis
 	svg.append("g")		
-		.attr("class", "y axis left")
-		.style("fill", "red")
-		.call(yAxisLeft);
+			.attr("class", "y axis left")
+			.style("stroke", "red")
+			.style("stroke-width","1")
+			.call(yAxisLeft)
+		.append("text")
+			.attr("transform", "rotate(-90)")
+			.attr("y", 6)
+			.attr("dy", "0.71em")
+			.style("text-anchor", "end")
+			.text("Price ($)");
 
 	// Add the right Y Axis
 	svg.append("g")		
-		.attr("class", "y axis right")
-		.attr("transform", "translate(" + width + " ,0)")
-		.style("fill", "blue")
-		.call(yAxisRight);
+			.attr("class", "y axis right")
+			.attr("transform", "translate(" + width + " ,0)")
+			.style("stroke", "blue")
+			.style("stroke-width","1")
+		.call(yAxisRight)
+		.append("text")
+			.attr("transform", "rotate(-90)")
+			.attr("y", 6)
+			.attr("dy", "2.91em")
+			.style("text-anchor", "end")
+			.text("Sentiment per 5 minutes");
 
 		var button_holder = d3.select('#buttons')
-
-		var lenDataArray = dayArray.length;
-		var cur_position = 0;
 		console.log(cur_position);
 
 		button_holder.append("button")
 			.text("back")
 			.on("click", function(){ 
-				if (cur_position < 0){
-					console.log("Cant go further backwards")
-				}
-				else{
-					cur_position -= 1
-					updateMainChart(cur_position,dayArray,width,height,margin,xAxis,yAxisLeft,yAxisRight);
-					updatePieChart(dayArray, cur_position,width,height,margin);
-					// update information
-					updateInfo(cur_position, dayArray);
-				}
+				var newData = dayArray.backday(cur_position);
+				cur_position = newData[0];
+				updateMainChart(cur_position,newData[1],width,height,margin,xAxis,yAxisLeft,yAxisRight);
+				//updatePieChart(newData[1], cur_position,width,height,margin);
+				// update information
+				updateInfo(cur_position, newData[1]);
 			});
 		console.log(cur_position);
 		
 		button_holder.append("button")
 			.text("next day")
 			.on("click", function(){				
-				if (cur_position >= lenDataArray){
-					console.log("Cant go further")
-				}
-				else{
-					cur_position = 
-					newData = 
-					updateMainChart(keys,cur_position,dayArray,width,height,margin,xAxis,yAxisLeft,yAxisRight);
-					updatePieChart(keys,dayArray, cur_position,width,height,margin);
-					// update information
-					updateInfo(keys,cur_position, dayArray);
-				}
+				var newData = dayArray.nextday(cur_position)
+				cur_position = newData[0]
+				updateMainChart(cur_position,newData[1],width,height,margin,xAxis,yAxisLeft,yAxisRight);
+				//updatePieChart(newData[1], cur_position,width,height,margin);
+				// update information
+				updateInfo(cur_position, newData[1]);
 			});
 		console.log(cur_position);
-
 		
 }
 
 	// ** Update data section (Called from the onclick)
-	function updateMainChart(keys,cur_position, dayArray,width,height,margin,xAxis,yAxisLeft,yAxisRight) {
+	function updateMainChart(cur_position, newData,width,height,margin,xAxis,yAxisLeft,yAxisRight) {
 		//cur_position +=  1
 		console.log(cur_position);
-
-		var newData = dayArray[keys[cur_position]];
-
-		console.log(newData[keys[0]]);
+		console.log(newData);
 			
 		// Set the ranges again
 		var	x = d3.time.scale().range([0, width]);
 		var	y0 = d3.scale.linear().range([height, -0,5]);
 		var	y1 = d3.scale.linear().range([height, -0,5]);
 
+		var stockSpace = 1;
+		var sentimentSpace = [1,0.8]
     	// Scale the range of the data again 
 		x.domain(d3.extent(newData, function(d) { return d.close_time; }));
-		y0.domain([d3.min(newData, function(d) { return Math.max(d.close); }), d3.max(newData, function(d) { return Math.max(d.close); })]);
-		y1.domain([d3.min(newData, function(d) { return Math.max(d.sentiment); }), d3.max(newData, function(d) { return Math.max(d.sentiment); })]);
+		y0.domain([d3.min(newData, function(d) { return Math.max(d.close - stockSpace); }), d3.max(newData, function(d) { return Math.max(d.close + stockSpace); })]);
+		y1.domain([d3.min(newData, function(d) { return Math.max(d.sentiment - sentimentSpace[0]); }), d3.max(newData, function(d) { return Math.max(d.sentiment + sentimentSpace[1]); })]);
 
 		// Define the line
 		var	stockline = d3.svg.line()
@@ -187,12 +192,12 @@ function graph(dayArray,width,height,margin){
 	    console.log(cur_position);
 	    //return cur_position;
     }
-    function updateInfo( cur_position, dayArray){
+    function updateInfo(cur_position, dayArray){
     	var parseDate = d3.time.format("%a %d/%b/%Y").parse;
 
 		var key = "Selected day: "
 
-		var result = key + dayArray[cur_position][0].close_time.toDateString();
+		var result = key + cur_position;
 		console.log(result);
 		document.getElementById("cur_date").innerHTML = result;
 

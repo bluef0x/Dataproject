@@ -42,6 +42,7 @@ def loadStockData():
 					# line.insert(0,header[i + 1])
 
 			else:
+				# 
 				dateObject = parser.parse(str(stockData[i][2] + stockData[i][3]))
 				temp1 = dateObject.strftime("%a %b %d %H:%M:%S %Y")
 				temp2 = temp1.split(" ")

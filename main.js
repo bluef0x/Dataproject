@@ -39,6 +39,7 @@ function main(){
 		    d.sentiment = parseFloat(+d.sentiment);
 		    d.close_time = parseDate(d.close_time);
 		    d.close = parseFloat(+d.CLOSE)
+            d.open = parseFloat(+d.OPEN)
 		   	
 		    //console.log(d.close, d.sentiment) 
 		  	});
@@ -65,10 +66,8 @@ function main(){
         data.forEach(function(d){
             if (moment(d.close_time).format("DD-MM-YYYY") != last_date){
                 //console.log("day: ", day_number)
-                console.log(d);
                 
                 last_date = moment(d.close_time).format("DD-MM-YYYY");
-                console.log(last_date);
                 // make array in object timerseries for each day
                 timeseriesData[String(last_date)] = [];
                 //console.log(last_date)
@@ -113,40 +112,40 @@ function main(){
             }
         };
 
-
-        console.log(timeseriesData.nextday("02-01-2012"));
-
-    	//var dayArray = [tuesday, wednesday,thursday,friday];
+        // console.log(timeseriesData);
+        // console.log(timeseriesData.nextday("03-01-2012"));
+        // console.log(timeseriesData["02-01-2012"]);
 
 	  	// Set the dimensions of the canvas / graph
-		var element = document.getElementById("mainChart");
-		var	margin = {top: 50, right: 10, bottom: 50, left: 45},
-		width = (element.offsetWidth * 1) + margin.left + margin.right,
-		height = (element.offsetHeight * 1) + margin.top + margin.bottom;
+		// var element = document.getElementById("mainChart");
+        // console.log(element.offsetWidth,element.offsetHeight);
+		var	margin = {top: 10, right: 45, bottom: 40, left: 45},
+		width = 450 - margin.left - margin.right,
+		height = 250 - margin.top - margin.bottom;
 
 		//console.log(width,height)
 
 		graph(timeseriesData,width,height,margin);
-		pieChart(timeseriesData[0],width,height,margin);
+		pieChart(timeseriesData,width,height,margin);
 
 		scatter(data,width,height,margin);
 		drawHistogram(data,width,height,margin);
-		updateInfoData(timeseriesData);
+		updateInfoData(data);
     	});
 	});
 }
 
 function scatter(data,width,height,margin){
-	 // var margin = {top: 20, right: 15, bottom: 60, left: 60}
-  //     , width = 960 - margin.left - margin.right
-  //     , height = 500 - margin.top - margin.bottom;
+	 var margin = {top: 20, right: 15, bottom: 60, left: 60}
+      , width = 500 - margin.left - margin.right
+      , height = 250 - margin.top - margin.bottom;
     
     var x = d3.scale.linear()
               .domain([ -1, 1])
               .range([ 0, width ]);
     
     var y = d3.scale.linear()
-    	      .domain([400, 450])
+    	      .domain([-0.03, 0.03])
     	      .range([ height, 0 ]);
  
     var chart = d3.select('#scatter')
@@ -169,31 +168,47 @@ function scatter(data,width,height,margin){
     main.append('g')
 	.attr('transform', 'translate(0,' + height + ')')
 	.attr('class', 'main axis date')
-	.call(xAxis);
+	.call(xAxis)
+    //.attr("transform", "rotate(-90)")
+    .append("text")
+    .attr("y", 15)
+    .attr("x", 50)
+    .attr("dy", ".35em")
+    .style("text-anchor", "middle")
+    .text("Price change in %");
 
     // draw the y axis
     var yAxis = d3.svg.axis()
 	.scale(y)
-	.orient('left');
+	.orient('left')
+    .ticks(7)
+    .tickFormat(d3.format('%'));
 
     main.append('g')
 	.attr('transform', 'translate(0,0)')
 	.attr('class', 'main axis date')
-	.call(yAxis);
+	.call(yAxis)
+    .append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 6)
+    .attr("dy", "0.71em")
+    .style("text-anchor", "end")
+    .text("Price change in %");
 
     var g = main.append("svg:g"); 
     
     g.selectAll("scatter-dots")
       .data(data)
       .enter().append("svg:circle")
-          .attr("cx", function (d,i) { return x(d.sentiment); } )
-          .attr("cy", function (d) { return y(d.close); } )
+          .attr("cx", function (d) { return x(d.sentiment); } )
+          .attr("cy", function (d) { return y(((d.close - d.open)/d.open)) ; } )
           .attr("r", 2)
           .style("fill", "blue");
 }
 function pieChart(dayArray,width,height,margin){
+    var cur_position = "03-01-2012";
 
-	var data = dayArray
+	var data = dayArray[cur_position];
 
 	// var width = 960,
 	// height = 500,
@@ -340,7 +355,7 @@ d3.legend = function(g) {
         .attr("cy",function(d,i) { return i-0.25+"em"})
         .attr("cx",0)
         .attr("r","0.4em")
-        .style("fill",function(d) { console.log(d.value.color);return d.value.color})  
+        .style("fill",function(d) {return d.value.color})  
     
     // Reposition and resize the box
     var lbbox = li[0][0].getBBox()  

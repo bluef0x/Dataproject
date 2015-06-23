@@ -13,7 +13,7 @@ path {
 	shape-rendering: crispEdges;
 }
 
-.svg-container {
+/*.svg-container {
     display: inline-block;
     position: relative;
     width: 100%;
@@ -27,7 +27,14 @@ path {
     position: absolute;
     top: 10px;
     left: 0;
+}*/
+/*.grid .tick {
+    stroke: lightgrey;
+    opacity: 0.7;
 }
+.grid path {
+      stroke-width: 0;
+}*/
 
 /* CSS for pie chart */
 
@@ -56,3 +63,5 @@ rect {
   fill:white;
   stroke:black;
   opacity:0.8;}
+
+

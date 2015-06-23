@@ -14,6 +14,7 @@
     	<script src="maingraph.js"></script>
     	<script src="histogram.js"></script>
     	<script src="moment.js"></script>
+    	<script src="simple_statistics.js"></script>
 
         <meta charset="utf-8">
     </head>
@@ -30,9 +31,10 @@
 		  </div> -->
 		</nav>
 
-    	<div class="container">
+    	<div class="container-fluid">
 		  <div class="jumbotron">
 		    <h1> Dashboard</h1> 
+		    <p>Dashboard gives you an overview of the social media stock of .....</p>
 		  </div>
 		  <div class="row" id="dashboard">
 		  	<div class="button" id="buttons">
@@ -41,33 +43,30 @@
 		  		<button id="5min" > day </button>
 
 			</div>
-		    <div class="col-lg-4" id="mainChart">
+		    <div class="col-md-5" id="mainChart">
 		      	<h3>Mainchart</h3>
-				<span class="tooltip" onmouseover="tooltip.pop(this, '<span class=\'red\'>Hi</span> there', {position:0})">
-				A little spice 
-				</span>
 		    </div>
-		    <div class="col-lg-4">
+		    <div class="col-md-2">
 		      <h3>Info</h3>
 		      <p id="cur_date"> </p>
 		    </div>
-		    <div class="col-lg-4" id="pieChart">
+		    <div class="col-md-5" id="pieChart">
 		      <h3>Pie chart</h3>
 		      <div id="pieChart"></div>
 		    </div>
 		  </div>
 		  <div class="row" id="data">
 		  		
-		    <div class="col-lg-4" id="histogram">
+		    <div class="col-md-5" id="histogram">
 		      <h3>Histogram</h3>
 		  		<button class="histogramButtons" id="sort" onclick="sortBars()">Sort</button>
     			<button class="histogramButtons" id="reset" onclick="reset()">Reset</button>
 		    </div>
-		    <div class="col-lg-4">
+		    <div class="col-md-2">
 		      <h3>Info</h3>
 		      <p id="dataInfo"></p>
 		    </div>
-		    <div class="col-lg-4" id="scatter">
+		    <div class="col-md-5" id="scatter">
 		      <h3>Scatterplot</h3>
 		    </div>
 		  </div>
@@ -95,7 +94,7 @@
 			}
 			addLoadEvent(main());
 			addLoadEvent(function() {
-				document.body.style.backgroundColor = '#C2DCD5';
+				document.body.style.backgroundColor = '';
 			})
 
 
