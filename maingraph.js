@@ -11,15 +11,15 @@ function graph(dayArray,width,height,margin){
 	// console.log(keys);
 
 	 // shows the day in array selected
-	var cur_position = 0;
+	var cur_position = "02-01-2012";
 
 	// get data for first day
-	var data = dayArray.get(0);//[keys[0]];
+	var data = dayArray[cur_position];//[keys[0]];
 
 	console.log(data)
 
 	// update information
-	updateInfo(keys,cur_position, dayArray);
+	updateInfo(cur_position, dayArray);
 
 	// Set the ranges
 	var	x = d3.time.scale().range([0, width]);
@@ -109,10 +109,10 @@ function graph(dayArray,width,height,margin){
 				}
 				else{
 					cur_position -= 1
-					updateMainChart(keys,cur_position,dayArray,width,height,margin,xAxis,yAxisLeft,yAxisRight);
-					updatePieChart(keys,dayArray, cur_position,width,height,margin);
+					updateMainChart(cur_position,dayArray,width,height,margin,xAxis,yAxisLeft,yAxisRight);
+					updatePieChart(dayArray, cur_position,width,height,margin);
 					// update information
-					updateInfo(keys,cur_position, dayArray);
+					updateInfo(cur_position, dayArray);
 				}
 			});
 		console.log(cur_position);
@@ -124,7 +124,8 @@ function graph(dayArray,width,height,margin){
 					console.log("Cant go further")
 				}
 				else{
-					cur_position += 1
+					cur_position = 
+					newData = 
 					updateMainChart(keys,cur_position,dayArray,width,height,margin,xAxis,yAxisLeft,yAxisRight);
 					updatePieChart(keys,dayArray, cur_position,width,height,margin);
 					// update information
@@ -186,13 +187,12 @@ function graph(dayArray,width,height,margin){
 	    console.log(cur_position);
 	    //return cur_position;
     }
-    function updateInfo(keys, cur_position, dayArray){
+    function updateInfo( cur_position, dayArray){
     	var parseDate = d3.time.format("%a %d/%b/%Y").parse;
 
 		var key = "Selected day: "
 
-		console.log(dayArray,keys,cur_position);
-		var result = key + dayArray[keys[cur_position]][0].close_time.toDateString();
+		var result = key + dayArray[cur_position][0].close_time.toDateString();
 		console.log(result);
 		document.getElementById("cur_date").innerHTML = result;
 

@@ -118,7 +118,7 @@ def main():
 	t0 = time.time()
 	paths = generate_paths(root_path)	
 	#paths = ["/somepath/something"]
-	test = loadFiles(paths,5)
+	test = loadFiles(paths,60)
 
 	print 'Took %.2f seconds' % (time.time() - t0)
 

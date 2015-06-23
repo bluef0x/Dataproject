@@ -93,12 +93,12 @@ function main(){
                 var current_datum_str = current_datum.format("DD-MM-YYYY");
                 console.log(current_datum_str);
                 if (timeseriesData[current_datum_str]){
-                    return timeseriesData[current_datum_str]
+                    return [current_datum_str,timeseriesData[current_datum_str]]
                 }
                 i++;
             }
         };
-        
+
         timeseriesData.backday = function(current_datum) {
             var i = 0;
             var current_datum = moment(current_datum, "DD-MM-YYYY");
@@ -107,7 +107,7 @@ function main(){
                 var current_datum_str = current_datum.format("DD-MM-YYYY");
                 console.log(current_datum_str);
                 if (timeseriesData[current_datum_str]){
-                    return timeseriesData[current_datum_str]
+                    return [current_datum_str,timeseriesData[current_datum_str]]
                 }
                 i++;
             }

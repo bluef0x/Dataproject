@@ -15,7 +15,7 @@ class BadLineException(Exception):
 if __name__ == "__main__":
 	
 	outputStock_file = "output_stock.csv"
-	outputTwitter_file = "output_sentiment.csv"
+	outputTwitter_file = "output_sentiment_hour.csv"
 
 	# # load stock data
 	# stockData = loadin.loadStockData()
@@ -40,30 +40,30 @@ if __name__ == "__main__":
 	# load twitter data
 	#twitterData = loadin.loadTwitterData()
 
-	# # for each set of 5 files run the full process
-	# for twitterDataSet in loadin.main():
-	# 	# load filtered twitterdata
-	# 	cleanTwitterData = filtering.filter_multiple(twitterDataSet)
+	# for each set of 5 files run the full process
+	for twitterDataSet in loadin.main():
+		# load filtered twitterdata
+		cleanTwitterData = filtering.filter_multiple(twitterDataSet)
 
-	# 	# Make outputfile with sentiment
-	# 	sentimentData = sentiment.calcSentiment_multiple(cleanTwitterData)
+		# Make outputfile with sentiment
+		sentimentData = sentiment.calcSentiment_multiple(cleanTwitterData)
 		
-	# 	# write to twitter outputfile and round time to minutes used for average
-	# 	with open (outputTwitter_file,"a") as cleanData:
-	# 		writer = csv.writer(cleanData)
+		# write to twitter outputfile and round time to minutes used for average
+		with open (outputTwitter_file,"a") as cleanData:
+			writer = csv.writer(cleanData)
 
-	# 		temp = int(round(int(sentimentData[1][14:16])/5)*5)
-	# 		closeTimeId = "".join([sentimentData[1][0:14],str(temp).zfill(2),":00",sentimentData[1][19:]])
+			temp = int(round(int(sentimentData[1][14:16])/60)*60)
+			closeTimeId = "".join([sentimentData[1][0:14],str(temp).zfill(2),":00",sentimentData[1][19:]])
 
-	# 		# write to csv
-	# 		writer.writerow([closeTimeId,sentimentData[0],sentimentData[1],sentimentData[2]])
+			# write to csv
+			writer.writerow([closeTimeId,sentimentData[0],sentimentData[1],sentimentData[2]])
 	
 	#merge twitter and stock output
-	dfile1 = pd.read_csv(outputTwitter_file)
-	dfile2 = pd.read_csv(outputStock_file)
-	dfile = pd.merge(dfile1,dfile2)
-	print dfile1.head()
-	print dfile2.head()
+	# dfile1 = pd.read_csv(outputTwitter_file)
+	# dfile2 = pd.read_csv(outputStock_file)
+	# dfile = pd.merge(dfile1,dfile2)
+	# print dfile1.head()
+	# print dfile2.head()
 
-	result = dfile.to_csv('output_aapl.csv',index=False)
+	# result = dfile.to_csv('output_aapl_hour.csv',index=False)
 	
