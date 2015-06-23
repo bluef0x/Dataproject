@@ -3,7 +3,7 @@
 	left: 48% 
 }
 body {
-  font: 10px sans-serif;
+  /*font: 10px sans-serif;*/
   padding-top: 70px;
 }
 
@@ -33,4 +33,10 @@ body {
 .histogramButtons{
   float: right;
 
+}
+#dateselect{
+  text-align: center;
+}
+#back,#cur_date,#next{
+  display: inline;
 }

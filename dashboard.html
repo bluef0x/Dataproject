@@ -3,7 +3,7 @@
 <html>
 
     <head>
-        <title>SocialTrade</title>
+        <title>SocialTrader</title>
         <link rel="stylesheet" type="text/css" href="SocStock_style.css">
         <link rel="stylesheet" type="text/css" href="bootstrap.css">
         <link rel="stylesheet" type="text/css" href="svg_style.css">
@@ -20,11 +20,11 @@
     </head>
 
     <body>
-    	<nav class="navbar navbar-inverse navbar-fixed-top">
+    	<nav class="navbar navbar-fixed-top">
     		<ol class="breadcrumb">
 			  <li><a href="index.html">Home</a></li>
 			  <li class="active">Dashboard</li>
-			  <li><a href="#">About</a></li>
+			  <li><a href="about.html">About</a></li>
 			</ol>
 <!-- 		  <div class="container">
 		    ...
@@ -37,18 +37,24 @@
 		    <p>Dashboard gives you an overview of the social media stock of .....</p>
 		  </div>
 		  <div class="row" id="dashboard">
-		  	<div class="button" id="buttons">
-		  		<button id="5min" > 5 min</button>
-		  		<button id="5min" > 1 hour</button>
-		  		<button id="5min" > day </button>
-
-			</div>
 		    <div class="col-md-5" id="mainChart">
 		      	<h3>Mainchart</h3>
 		    </div>
 		    <div class="col-md-2">
 		      <h3>Info</h3>
+<!-- 	  		  	<div class="button" id="buttons">
+			  		<button id="button1" > button1</button>
+			  		<button id="5min" > 1 hour</button>
+			  		<button id="5min" > day </button>
+				</div> -->
+				<div id="dateselect">
+					<span id="back"></span>
+					<p id="cur_date"> </p>
+					<span id="next"></span>
+				</div>
+				<span id="back"></span>
 		      <p id="cur_date"> </p>
+		      <span id="next"></span>
 		    </div>
 		    <div class="col-md-5" id="pieChart">
 		      <h3>Pie chart</h3>

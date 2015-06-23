@@ -17,3 +17,9 @@ verander key in dag/maand/jaar
 bouw functie in object die vorige en volgende dag zoekt
 onthoud dag geselecteerd in plaats van nummer
 gebruik functie voor back en next knop
+
+Nog te doen:
+
+Visualisatie mooi maken.
+Nieuwe graph invoegen.
+correlatiecoeficient invoegen (python: numpy.corrcoef http://docs.scipy.org/doc/numpy/reference/generated/numpy.corrcoef.html)

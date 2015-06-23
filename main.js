@@ -145,7 +145,7 @@ function scatter(data,width,height,margin){
               .range([ 0, width ]);
     
     var y = d3.scale.linear()
-    	      .domain([-0.03, 0.03])
+    	      .domain([-0.02, 0.02])
     	      .range([ height, 0 ]);
  
     var chart = d3.select('#scatter')
@@ -181,7 +181,7 @@ function scatter(data,width,height,margin){
     var yAxis = d3.svg.axis()
 	.scale(y)
 	.orient('left')
-    .ticks(7)
+    .ticks(5)
     .tickFormat(d3.format('%'));
 
     main.append('g')

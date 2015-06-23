@@ -114,11 +114,13 @@ function graph(dayArray,width,height,margin){
 			.style("text-anchor", "end")
 			.text("Sentiment per 5 minutes");
 
-		var button_holder = d3.select('#buttons')
-		console.log(cur_position);
+		// var button_holder = d3.select('#buttons')
+		// console.log(cur_position);
+		var backbutton = d3.select('#back');
+		var nextbutton = d3.select('#next');
 
-		button_holder.append("button")
-			.text("back")
+		backbutton.append("button")
+			.text("<")
 			.on("click", function(){ 
 				var newData = dayArray.backday(cur_position);
 				cur_position = newData[0];
@@ -129,8 +131,8 @@ function graph(dayArray,width,height,margin){
 			});
 		console.log(cur_position);
 		
-		button_holder.append("button")
-			.text("next day")
+		nextbutton.append("button")
+			.text(">")
 			.on("click", function(){				
 				var newData = dayArray.nextday(cur_position)
 				cur_position = newData[0]
@@ -195,9 +197,7 @@ function graph(dayArray,width,height,margin){
     function updateInfo(cur_position, dayArray){
     	var parseDate = d3.time.format("%a %d/%b/%Y").parse;
 
-		var key = "Selected day: "
-
-		var result = key + cur_position;
+		var result = "<b>" + cur_position + "</b>";
 		console.log(result);
 		document.getElementById("cur_date").innerHTML = result;
 
