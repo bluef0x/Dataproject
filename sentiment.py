@@ -2,38 +2,14 @@ import json
 import csv
 from textblob import TextBlob
 
-# def calcSentiment_multiple(CleanTwitterDataSets):
-# 	average_sentiment = 0
-# 	total = 0
-# 	lengthDataSet = len(CleanTwitterDataSets)
-# 	OneTweetTime = []
-# 	output_file = "output_sentiment.csv"
-
-# 	# open csv
-# 	with open (output_file,"a") as twitterOutput:
-# 		writer = csv.writer(twitterOutput)
-# 		for singleCleanSet in CleanTwitterDataSets:
-# 			output = calcSentiment(singleCleanSet)
-			
-# 			if output is None:
-# 				lengthDataSet -= 1
-# 			else:
-# 				total += output[1]
-# 				OneTweetTime.append(output[0])
-
-# 		if lengthDataSet != 0:
-# 			average_sentiment = total / lengthDataSet
-
-# 		# write to csv
-# 		writer.writerow([OneTweetTime[0],OneTweetTime[(lengthDataSet - 1)], average_sentiment])
-
 def calcSentiment_multiple(CleanTwitterDataSets):
+	''' run sentiment calculation times amount of files chosen to load in each time (default is 5)'''
 	average_sentiment = 0
 	total = 0
 	lengthDataSet = len(CleanTwitterDataSets)
 	OneTweetTime = []
 
-
+	# calculate average sentiment for all selected files each time
 	for singleCleanSet in CleanTwitterDataSets:
 		output = calcSentiment(singleCleanSet)
 		
@@ -43,14 +19,18 @@ def calcSentiment_multiple(CleanTwitterDataSets):
 			total += output[1]
 			OneTweetTime.append(output[0])
 
+	# if dataset is not empty, calulate averagesentiment
 	if lengthDataSet != 0:
 		average_sentiment = total / lengthDataSet
+		# write to csv
+		return [str(OneTweetTime[0]),str(OneTweetTime[(lengthDataSet - 1)]), average_sentiment]
 
-	# write to csv
-	return [str(OneTweetTime[0]),str(OneTweetTime[(lengthDataSet - 1)]), average_sentiment]
+
+	
 
 
 def calcSentiment(input):
+	''' calculate sentiment for each twitterfile and average this'''
 	tweets_data = []
 	sentiment_array = []
 	total = 0
@@ -64,7 +44,7 @@ def calcSentiment(input):
 	# iterate over all tweets
 	for tweet_data in tweets_data:
 		tweet = tweet_data["text"]
-		# sent the tweet to TextBlob to gain sentiment , the default sentiment analyzer is Pattern
+		# analyze tweet with TextBlob to gain sentiment
 		tweet = TextBlob(tweet)
 
 		OneTweetTime = tweet_data["created_at"]

@@ -40,3 +40,8 @@ body {
 #back,#cur_date,#next{
   display: inline;
 }
+#navreferences{
+  float: right;
+}
+
+  

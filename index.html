@@ -3,39 +3,63 @@
 <html>
 
     <head>
-        <title>SocialTrader</title>
+        <title>SocStock</title>
         <link rel="stylesheet" type="text/css" href="bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="SocStock_style.css">
         <meta charset="utf-8">
 
         <style>
 	        body {
 			  /*font: 10px sans-serif;*/
-			  padding-top: 70px;
+			 padding-top: 120px;
 			}
-			#switch{
+/*			#switch{
 				position: relative;
 				left: 48% 
+			}*/
+			body{
+			    /*text-align: center;*/
+			    color: #ccc;
+			    background-attachment: scroll;
+			    /*reference = http://mastersofmedia.hum.uva.nl/2012/10/15/twitter-chatter-and-stock-market-trends/*/
+			    background-image: url("docs/twitterstock.jpg");
+			    background-position: center center;
+			    background-repeat: none;
+			    -webkit-background-size: cover;
+			    -moz-background-size: cover;
+			    background-size: cover;
+			    -o-background-size: cover;
+			}
+			.explainer{
+				opacity: 1;
+			}
+/*			#navreferences{
+				background-color: white;
+			}*/
+			.navbar-brand{
+
 			}
         </style>
 
     </head>
 
     <body>
-    	<nav class="navbar navbar-fixed-top">
+    	<nav class="navbar navbar-fixed-top" id="navreferences"style=>
+    		<a class="navbar-brand" href="index.html">SocStock</a>
     		<ol class="breadcrumb">
 			  <li class="active">Home</li>
 			  <li><a href="dashboard.html">Dashboard</a></li>
 			  <li><a href="about.html">About</a></li>
 			</ol>
 		</nav>
-		<div class="container-fluid">
-			<div class="jumbotron">
-			    <h1> SocStock</h1>
-			    <p>SocStock is the dashboard for analyzing the effect of twittersentiment on the social media stockprices</p>
-			    <p><a class="btn btn-primary btn-lg" href="#" role="button">Introduction</a></p> 
+		<section>
+			<div class="container-fluid explainer">
+				<div class="jumbotron">
+				    <h1> SocStock</h1>
+				    <p>SocStock is an opensource dashboard for analyzing the effect of twittersentiment on the social media stockprices. While the current dashboard is showing data for apple stock, it can digest all social media stocks by changing the input.</p>
+				    <p><a class="btn btn-primary btn-lg" href="dashboard.html" role="button" onclick="introduction()">Let's start</a></p>
+				</div>		
 			</div>
-		</div>
+		</section>
     </body>
 
 </html>

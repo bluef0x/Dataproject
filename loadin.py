@@ -14,10 +14,10 @@ def loadTwitterData(filepath='00.json'):
 
 	print 'Loading', filepath
 
+	# get data from file to array
 	with open(filepath) as data_file:
 		for line in data_file:
 			twitterData.append(json.loads(line))
-		print len(twitterData) 
 	return twitterData
 
 def loadStockData():
@@ -25,15 +25,17 @@ def loadStockData():
 	stockData = []
 	dataObjects = []
 
-	with open('US2.AAPL_120101_120131(1).txt') as data_file:
-		inputFileList = [line.rstrip('\n').split('\r') for line in data_file]
+	# open input file and write to csv
+	with open('US2.GOOG_120101_120131.txt') as data_file:
+		inputFileList = [line.rstrip('\n').strip('\r') for line in data_file]
+		# for apple stock, remove strip('\r') and use split('\r')
 
-		for line in inputFileList[0]:
+		for line in inputFileList:
 			stockData.append(line.split(','))
 		
 		for i,line in enumerate(stockData):
 			if i == 0:
-				print "hello"
+				# write header
 				header = ["close_time","TICKER","OPEN","HIGH","LOW","CLOSE","VOL"]
 				print header[0]
 
@@ -42,17 +44,15 @@ def loadStockData():
 					# line.insert(0,header[i + 1])
 
 			else:
-				# 
+				# write data
+				print stockData[i]
 				dateObject = parser.parse(str(stockData[i][2] + stockData[i][3]))
-				temp1 = dateObject.strftime("%a %b %d %H:%M:%S %Y")
-				temp2 = temp1.split(" ")
+				timeobject = dateObject.strftime("%a %b %d %H:%M:%S %Y")
+				temp2 = timeobject.split(" ")
 				temp2.insert(4,"+0000")
 				temp3 = " ".join(temp2)
 				line.insert(0,str(temp3))
-			# print line
-	# print stockData
 	return stockData
-#Sun Jan 01 07:00:59 +0000 2012
 
 def generate_paths(root_path =' '):
 	''' generate paths for all files in folder '''
@@ -62,8 +62,7 @@ def generate_paths(root_path =' '):
 	year = 2012
 	month = 1
 
-	# for year in file_directory:
-	# 	for month in year:
+	# generate day,hour,minute for pathname
 	days = [d for d in cal.itermonthdays(year, month) if d != 0]
 	for day in days:
 		if day < 10:
@@ -87,6 +86,7 @@ def generate_paths(root_path =' '):
 				yield temp
 
 def loadFiles(paths, n = 5):
+	''' load a determined amount of 1 minute twitter files '''
 	files = []
 	for i,path in enumerate(paths):
 		# load file
@@ -114,13 +114,17 @@ def loadFiles(paths, n = 5):
 
 def main():
 
+	# give rootpath
 	root_path = "/Users/jeroen_meijaard48/Downloads"
 
 	t0 = time.time()
 	paths = generate_paths(root_path)	
 	#paths = ["/somepath/something"]
-	test = loadFiles(paths,60)
 
+	# load 5 files at a time
+	test = loadFiles(paths,5)
+
+	# print amount of time needed for run
 	print 'Took %.2f seconds' % (time.time() - t0)
 
 	return test

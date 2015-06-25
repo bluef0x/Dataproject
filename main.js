@@ -4,17 +4,6 @@
 
 // set timeformat
 var parseDate = d3.time.format("%a %b %d %H:%M:%S %Z %Y").parse;
-// // Set the dimensions of the canvas / graph
-// var	margin = {top: 30, right: 20, bottom: 30, left: 50},
-// width = 450 - margin.left - margin.right,
-// height = 300 - margin.top - margin.bottom;
-
-// // Set the dimensions of the canvas / graph
-// 	var element = document.getElementById("mainChart");
-// 	var	margin = {top: 30, right: 20, bottom: 30, left: 50},
-// 	width = element.offsetWidth - margin.left - margin.right,
-// 	height = element.offsetHeight - margin.top - margin.bottom;
-
 
 
 // Can can also search the DOM using ClassName. For example: document.getElementsByClassName("myDiv")
@@ -25,7 +14,7 @@ var parseDate = d3.time.format("%a %b %d %H:%M:%S %Z %Y").parse;
 
 
 function main(){
-
+    // load data
     d3.csv("output_sentiment.csv",function(error, rows) { 
     	d3.csv("output_aapl.csv", function(error, data) {
     	// 	rows.forEach(function(d) {
@@ -38,52 +27,28 @@ function main(){
 		    d.end_time = parseDate(d.end_time);
 		    d.sentiment = parseFloat(+d.sentiment);
 		    d.close_time = parseDate(d.close_time);
-		    d.close = parseFloat(+d.CLOSE)
-            d.open = parseFloat(+d.OPEN)
-		   	
-		    //console.log(d.close, d.sentiment) 
+		    d.close = parseFloat(+d.CLOSE);
+            d.open = parseFloat(+d.OPEN);
+            d.vol = parseFloat(+d.VOL);
 		  	});
 
 
     	// make timeseries
     	var last_date = null;
 
-     //    var timeseriesData = {};
-    	// data.forEach(function(d){
-    	// 	if (d.close_time.getDate() != last_date){
-    	// 		//console.log("day: ", day_number)
-     //            console.log(d);
-    			
-    	// 		last_date = d.close_time.getDate();
-     //            // make array in object timerseries for each day
-     //            timeseriesData[String(last_date)] = [];
-    	// 		//console.log(last_date)
-    	// 	}
-     //        timeseriesData[String(last_date)].push(d);
-    	// });
-
+        // make timeserie object for selecting each day
         var timeseriesData = {};
         data.forEach(function(d){
             if (moment(d.close_time).format("DD-MM-YYYY") != last_date){
-                //console.log("day: ", day_number)
                 
                 last_date = moment(d.close_time).format("DD-MM-YYYY");
                 // make array in object timerseries for each day
                 timeseriesData[String(last_date)] = [];
-                //console.log(last_date)
             }
             timeseriesData[String(last_date)].push(d);
         });
 
-
-        
-        // timeseriesData.keys = Object.keys(timeseriesData).map(function(day) {
-        //         return ~~day;
-        //     }).sort(function(a, b) {
-        //         return a < b;
-        //     });
-
-        // functie schrijven die datum bepaalt 1 dag terug en 1 dag vooruit
+        // function for spliting days into timeseries, returns next day and object 
         timeseriesData.nextday = function(current_datum) {
             var i = 0;
             var current_datum = moment(current_datum, "DD-MM-YYYY");
@@ -97,7 +62,7 @@ function main(){
                 i++;
             }
         };
-
+        // function for spliting days into timeseries, returns next day and object 
         timeseriesData.backday = function(current_datum) {
             var i = 0;
             var current_datum = moment(current_datum, "DD-MM-YYYY");
@@ -117,28 +82,36 @@ function main(){
         // console.log(timeseriesData["02-01-2012"]);
 
 	  	// Set the dimensions of the canvas / graph
-		// var element = document.getElementById("mainChart");
-        // console.log(element.offsetWidth,element.offsetHeight);
 		var	margin = {top: 10, right: 45, bottom: 40, left: 45},
 		width = 450 - margin.left - margin.right,
 		height = 250 - margin.top - margin.bottom;
+        
 
-		//console.log(width,height)
+        // d3.select("#introduction").on("click", introductiontext);
+        
+        // var introductiontext = function introduction(){
+        //     console.log("test");
+        //     var textblock = d3.select('#introductiontext').append("text");
+        //     text.text("hallo");
+            
+        //     }
 
+        // draw dashboard
 		graph(timeseriesData,width,height,margin);
-		pieChart(timeseriesData,width,height,margin);
-
-		scatter(data,width,height,margin);
-		drawHistogram(data,width,height,margin);
-		updateInfoData(data);
+		pieChart(timeseriesData["03-01-2012"],width,height,margin);
+		scatter(timeseriesData["03-01-2012"],width,height,margin);
+		drawHistogram(timeseriesData["03-01-2012"],width,height,margin);
     	});
 	});
 }
-
+// draw scatterplot
 function scatter(data,width,height,margin){
-	 var margin = {top: 20, right: 15, bottom: 60, left: 60}
-      , width = 500 - margin.left - margin.right
-      , height = 250 - margin.top - margin.bottom;
+	 var margin = {top: 20, right: 15, bottom: 60, left: 60},
+         width = 500 - margin.left - margin.right,
+         height = 250 - margin.top - margin.bottom;
+
+    // remove old scatterplot
+    d3.select("#scatter").selectAll("svg").remove();
     
     var x = d3.scale.linear()
               .domain([ -1, 1])
@@ -166,16 +139,14 @@ function scatter(data,width,height,margin){
 	.orient('bottom');
 
     main.append('g')
-	.attr('transform', 'translate(0,' + height + ')')
-	.attr('class', 'main axis date')
-	.call(xAxis)
-    //.attr("transform", "rotate(-90)")
-    .append("text")
-    .attr("y", 15)
-    .attr("x", 50)
-    .attr("dy", ".35em")
-    .style("text-anchor", "middle")
-    .text("Price change in %");
+    	.attr('transform', 'translate(0,' + height + ')')
+    	.attr('class', 'main axis date')
+    	.call(xAxis);
+
+    main.append("text")
+        .attr("transform", "translate(" + (width / 2) + " ," + (height + margin.bottom - 20) + ")")
+        .style("text-anchor", "middle")
+        .text("Sentiemnt per 5 minutes");
 
     // draw the y axis
     var yAxis = d3.svg.axis()
@@ -197,6 +168,7 @@ function scatter(data,width,height,margin){
 
     var g = main.append("svg:g"); 
     
+    // draw dots
     g.selectAll("scatter-dots")
       .data(data)
       .enter().append("svg:circle")
@@ -205,10 +177,16 @@ function scatter(data,width,height,margin){
           .attr("r", 2)
           .style("fill", "blue");
 }
-function pieChart(dayArray,width,height,margin){
-    var cur_position = "03-01-2012";
+function updateScatter(dayData,width,height,margin){
 
-	var data = dayArray[cur_position];
+    scatter(dayData,width,height,margin);
+
+}
+    
+// draw piechart 
+function pieChart(dayArray,width,height,margin){
+
+	var data = dayArray;
 
 	// var width = 960,
 	// height = 500,
@@ -274,48 +252,157 @@ function pieChart(dayArray,width,height,margin){
 	.enter().append("g")
 	  .attr("class", "arc");
 
+    var totalPopulation = pieData[0].population + pieData[1].population 
+    console.log(totalPopulation);
+
 	g.append("path")
 	  .attr("d", arc)
-	  .attr("data-legend",function(d,i) { return pieData[i].type})
+	  .attr("data-legend",function(d,i) { 
+        var percentage = parseFloat((pieData[i].population * 100)/ totalPopulation).toFixed(1);
+        return pieData[i].type + " " + percentage + "%"})
 	  .style("fill", function(d,i) { return color(i);})
-	  .each(function(d) { this._current = d; }); // store the initial angles NEEDED?????????
 
 	var legend = svg.append("g")
 	  .attr("class","legend")
-	  .attr("transform","translate(100,30)")
-	  .style("font-size","8px")
+	  .attr("transform","translate(35,20)")
+	  .style("font-size","15px")
 	  .call(d3.legend)
-
-	setTimeout(function() { 
-    legend
-      .style("font-size","20px")
-      .attr("data-style-padding",10)
-      .call(d3.legend)
-  	},1000)
-
 }
-function updatePieChart(dayArray, cur_position,width,height,margin){
+// update piechart
+function updatePieChart(dayData, cur_position,width,height,margin){
 
-	var data = dayArray[cur_position];
-
-	pieChart(data,width,height,margin);
+    pieChart(dayData,width,height,margin);
 
 }
 
-function updateInfoData(data){
-    	var parseDate = d3.time.format("%a %d/%b/%Y").parse;
+// draw histogram
+function drawHistogram(data,setwidth,height,margin){
+var w = 300;
+var h = 200;
 
-		var start = "start day: ";
-		var end = "end day: ";
-		var lengthData = data.length - 1;
+var uniqueCount = [];
+var datatemp = {};
+
+data.forEach(function(d){
+    var key = (parseFloat(d.sentiment)).toFixed(1);
+    if (key == -0.0){
+        uniqueCount.push("0.0");
+    }
+    else{
+        uniqueCount.push(key);
+    }
+});
+uniqueCount.forEach(function(e,i){ datatemp[e] = (datatemp[e]||0)+1; });
+
+var keys = Object.keys(datatemp);
+var values = Object.keys(datatemp).map(function (key) {return datatemp[key]});
+
+var dataset = []
+for (var i = 0; i < keys.length; i++){
+    var temp = {"key": keys[i], "value": values[i]};
+    dataset.push(temp);
+}
+
+// remove old histogram
+d3.select("#histogram").selectAll("svg").remove();
+
+var xScale = d3.scale.ordinal()
+                .domain(d3.range(dataset.length))
+                .rangeRoundBands([0, w], 0.5); 
+
+var yScale = d3.scale.linear()
+                .domain([0, d3.max(dataset, function(d) {return d.value;})])
+                .range([0, h]);
+
+var key = function(d) {
+    return d.key;
+};
+
+//Create SVG element
+var svg = d3.select("#histogram")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+//Create bars
+svg.selectAll("rect")
+   .data(dataset, key)
+   .enter()
+   .append("rect")
+   .attr("x", function(d, i) {
+        return xScale(i);
+   })
+   .attr("y", function(d) {
+        return h - (yScale(d.value) );
+   })
+   .attr("width", xScale.rangeBand())
+   .attr("height", function(d) {
+        return yScale(d.value);
+   })
+   .style("fill", "gray")
 
 
-		var result = start + data[0].close_time.toDateString() + "<br>" +  end + data[lengthData].close_time.toDateString();
-		console.log(result);
-		document.getElementById("dataInfo").innerHTML = result;
+//Create labels
+svg.selectAll("text")
+   .data(dataset, key)
+   .enter()
+   .append("text")
+   .text(function(d) {
+        return d.value,d.key;
+   })
+   .attr("text-anchor", "middle")
+   .attr("x", function(d, i) {
+        return xScale(i) + xScale.rangeBand() / 2;
+   })
+   .attr("y", function(d) {
+        return h - yScale(d.value) + 20;
+   })
+   .attr("font-family", "sans-serif") 
+   .attr("font-size", "11px")
+   .attr("fill", "white");
+
+// get rects sorted   
+svg.selectAll("rect")
+        .sort(function(a, b){
+            return a.key - b.key;
+        })
+        .transition()
+        .delay(function (d, i) {
+        return i * 50;
+        })
+        .duration(1000)
+        .attr("x", function (d, i) {
+        return xScale(i);
+        });
+        
+    svg.selectAll('text')
+        .sort(function(a, b){
+            return a.key - b.key;
+        })
+        .transition()
+        .delay(function (d, i) {
+        return i * 50;
+    })
+        .duration(1000)
+        .text(function (d) {
+        return d.key;
+    })
+        .attr("text-anchor", "middle")
+        .attr("x", function (d, i) {
+        return xScale(i) + xScale.rangeBand() / 2;
+    })
+        .attr("y", function (d) {
+        return h - yScale(d.value) + 14;
+    });
+    
+}
+function updateHistogram(dayData,width,height,margin){
+
+    drawHistogram(dayData,width,height,margin);
 
 }
 
+// libary for legend of piechart (will be deleted!!!!!!!!!!!!!!)
 (function() {
 d3.legend = function(g) {
   g.each(function() {

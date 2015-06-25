@@ -19,8 +19,7 @@ Jeroen Meijaard
 
 
 Doelen:
--	Inzicht verschaffen in de relatie tussen het sentiment over een bedrijf op twitter en prijsontwikkeling van een social media aandelen (TWITTER, TESLA, APPLE  etc..).
--	Een overzicht te geven in belangrijke historische gebeurtenissen voor het bedrijf.
+-	Inzicht verschaffen in de relatie tussen het sentiment over een bedrijf op twitter en prijsontwikkeling van een van de social media aandelen (TWITTER, TESLA, APPLE  etc..).
 
 
 
