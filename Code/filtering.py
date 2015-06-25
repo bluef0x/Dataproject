@@ -15,6 +15,7 @@ def filter_multiple(twitterFiles):
 
 def filter(singleTwitterJsonFile):
 	''' filter out tweet that contain keywords of selected stock'''
+	# Part of code based on master thesis of Guangxue Cao 
 	tweets_data = []
 	output = []
 

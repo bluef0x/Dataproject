@@ -28,6 +28,7 @@ def calcSentiment_multiple(CleanTwitterDataSets):
 
 def calcSentiment(input):
 	''' calculate sentiment for each twitterfile and average this'''
+	# Part of code based on master thesis of Guangxue Cao 
 	tweets_data = []
 	sentiment_array = []
 	total = 0
