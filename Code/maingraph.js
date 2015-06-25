@@ -2,8 +2,11 @@
 
 function graph(dayArray,width,height,margin){
 
+	// get keys for getting first element
+	var keys = Object.keys(dayArray);
+
 	 // shows the day in array selected
-	var cur_position = "03-01-2012";
+	var cur_position = keys[0];
 
 	// get data for first day
 	var data = dayArray[cur_position];
@@ -43,7 +46,7 @@ function graph(dayArray,width,height,margin){
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	var stockSpace = 1;
-	var sentimentSpace = [1,0.8]
+	var sentimentSpace = [0.1,0.1]
 	// Scale the range of the data
 	x.domain(d3.extent(data, function(d) { return d.close_time; }));
 	y0.domain([d3.min(data, function(d) { return Math.min(d.close - stockSpace); }), d3.max(data, function(d) { return Math.max(d.close + stockSpace); })]);
@@ -134,23 +137,20 @@ function graph(dayArray,width,height,margin){
 
 	//  Update data section (Called from the onclick)
 	function updateMainChart(cur_position, newData,width,height,margin,xAxis,yAxisLeft,yAxisRight) {
-		//cur_position +=  1
-		console.log(cur_position);
-		console.log(newData);
-			
-		// Set the ranges again
+
+		// set the ranges again
 		var	x = d3.time.scale().range([0, width]);
 		var	y0 = d3.scale.linear().range([height, -0,5]);
 		var	y1 = d3.scale.linear().range([height, -0,5]);
 
 		var stockSpace = 1;
 		var sentimentSpace = [1,0.8]
-    	// Scale the range of the data again 
+    	// scale the range of the data again 
 		x.domain(d3.extent(newData, function(d) { return d.close_time; }));
 		y0.domain([d3.min(newData, function(d) { return Math.max(d.close - stockSpace); }), d3.max(newData, function(d) { return Math.max(d.close + stockSpace); })]);
 		y1.domain([d3.min(newData, function(d) { return Math.max(d.sentiment - sentimentSpace[0]); }), d3.max(newData, function(d) { return Math.max(d.sentiment + sentimentSpace[1]); })]);
 
-		// Define the line
+		// define the line
 		var	stockline = d3.svg.line()
 			.x(function(d) { return x(d.close_time); })
 			.y(function(d) { return y0(d.close); });
@@ -158,10 +158,10 @@ function graph(dayArray,width,height,margin){
 			.x(function(d) { return x(d.close_time); })
 			.y(function(d) { return y1(d.sentiment); });
 
-	    // Select the section we want to apply our changes to
+	    // Select div for transition
 	    var svg = d3.select("#mainChart").transition();
 
-	    // Make the changes
+	    // transitions
 	        svg.select(".twitterline")   // change the twitterline
 	            .duration(750)
 	            .attr("d", twitterline(newData));
@@ -182,16 +182,21 @@ function graph(dayArray,width,height,margin){
     function updateInfo(cur_position, dayData){
     	var parseDate = d3.time.format("%a %d/%b/%Y").parse;
 
+    	// show current date
 		var result = "<b>" + cur_position + "</b>";
 		document.getElementById("cur_date").innerHTML = result;
 
+		// show total volume of the day
 		var totalDayVolume = 0;
 
 		for (var i = 0; i < dayData.length; i++){
 			totalDayVolume += dayData[i].vol
 		}
-		var text = "<b>" + "Daily information" + "</b>" + "<br>" + "Volume:  " + totalDayVolume + "<br>";
-		document.getElementById("volume").innerHTML = text;
 
+		// get ticker
+		var ticker = dayData[0].TICKER;
+
+		var text = "<b>" + "Daily information" + "</b>" + "<br>" + "<br>" + "Volume:  " + totalDayVolume + "<br>" + "Ticker:  " + ticker + "<br>";
+		document.getElementById("volume").innerHTML = text;
     }
 

@@ -28,18 +28,11 @@ path {
     top: 10px;
     left: 0;
 }*/
-/*.grid .tick {
-    stroke: lightgrey;
-    opacity: 0.7;
-}
-.grid path {
-      stroke-width: 0;
-}*/
 
 /* CSS for pie chart */
 
 /* CSS for histogram */
-/*.axis path,
+.axis path,
 .axis line {
   fill: "red";
   stroke: black;
@@ -48,7 +41,7 @@ path {
 .axis text {
   font-family: sans-serif;
   font-size: 11px;
-}*/
+}
 
 rect {
   -moz-transition: all 0.3s;
