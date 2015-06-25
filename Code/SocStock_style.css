@@ -7,29 +7,6 @@ body {
   padding-top: 70px;
 }
 
-/*.bar rect {
-  fill: "red";
-  shape-rendering: crispEdges;
-}
-
-.bar text {
-  fill: #fff;
-}
-
-.axis path, .axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;*/
-}
-/*#dashboard{
-  border-style: solid;
-  border-color: #ff0000 #0000ff;
-}
-#data{
-  border-style: solid;
-    border-color: #ff0000 #0000ff;
-}
-*/
 .histogramButtons{
   float: right;
 

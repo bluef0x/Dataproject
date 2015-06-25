@@ -240,9 +240,9 @@ function updatePieChart(dayData, cur_position,width,height,margin){
 
 // draw histogram
 function drawHistogram(data,setwidth,height,margin){
-var margin = {top: 10, right: 15, bottom: 30, left: 30}, 
-    width = 350 - margin.left - margin.right,
-    height = 225 - margin.top - margin.bottom;
+var margin = {top: 30, right: 15, bottom: 30, left: 30}, 
+    width = 350,
+    height = 225;
 
 // determine unique count
 var uniqueCount = [];
@@ -323,11 +323,17 @@ svg.selectAll("text")
         return xScale(i) + xScale.rangeBand() / 2;
    })
    .attr("y", function(d) {
-        return height - yScale(d.value) + 20;
+            if (height - yScale(d.value) < 20){
+                return height - yScale(d.value) + 15
+            }
+            else{
+                return height - yScale(d.value) - 5
+            }
+        
    })
    .attr("font-family", "sans-serif") 
    .attr("font-size", "11px")
-   .attr("fill", "white");
+   .attr("fill", "black");
 
 // get rects sorted   
 svg.selectAll("rect")
@@ -360,7 +366,13 @@ svg.selectAll("rect")
         return xScale(i) + xScale.rangeBand() / 2;
     })
         .attr("y", function (d) {
-        return height - yScale(d.value) + 14;
+            if (height - yScale(d.value) < 20){
+                return height - yScale(d.value) + 15
+            }
+            else{
+                return height - yScale(d.value) - 5
+            }
+        
     });
     
 }

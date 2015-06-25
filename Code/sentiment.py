@@ -26,9 +26,6 @@ def calcSentiment_multiple(CleanTwitterDataSets):
 		return [str(OneTweetTime[0]),str(OneTweetTime[(lengthDataSet - 1)]), average_sentiment]
 
 
-	
-
-
 def calcSentiment(input):
 	''' calculate sentiment for each twitterfile and average this'''
 	tweets_data = []
