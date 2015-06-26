@@ -26,6 +26,8 @@ GEBRUIK
 
 Doormiddel van  het selecteren van een dag in de informatiebalk, worden de informatie van de geselecteerde dag getoond in elke visualisatie op het dashboard.
 
+Linegraph
+![Alt text](https://github.com/bluef0x/Dataproject/blob/master/docs/linegraph.jpg)
 
-
-
+Correlation
+![Alt text](https://github.com/bluef0x/Dataproject/blob/master/docs/correlation.jpg)
